@@ -11,20 +11,20 @@ export const dynamic = "force-dynamic"
 export default async function Page({
   params,
 }: {
-  params: Promise<{ chatID: string; token: string }>
+  params: Promise<{ uuid: string; token: string }>
 }) {
-  const { chatID, token: tokenParam } = await params
+  const { uuid, token: tokenParam } = await params
   const token = decodeURIComponent(tokenParam)
   const accessToken = await getAccessToken(token)
-  const chatData = await getChatInfo({ chatID, token: accessToken })
+  const chatData = await getChatInfo({ uuid, token: accessToken })
 
   return (
     <main>
-      <div className="space-y-6 rounded-b-2xl  p-6  text-primary">
+      <div className=" bg-red-500  p-4  text-primary">
         <div className="flex items-center justify-between gap-4 ">
           <BackButton />
           <div className="flex grow items-center gap-2">
-            <Avatar className="h-[60px] w-[60px] border-[3px] border-primary">
+            <Avatar className="size-12 border-[3px] border-primary">
               <AvatarImage src={chatData.image} />
               <AvatarFallback>
                 <User />

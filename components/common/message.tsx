@@ -3,14 +3,17 @@ import { usePathname } from "next/navigation"
 
 import { Message as Props } from "@/@types/chat-response"
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu"
 import { cn } from "@/lib/utils"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import dayjs from "dayjs"
+import relativeTime from "dayjs/plugin/relativeTime"
+dayjs.extend(relativeTime)
 
 const Message = ({
   id,
@@ -43,6 +46,7 @@ const Message = ({
   }
   const pathName = usePathname()
   const isAdminView = pathName?.includes("/admin")
+
   return (
     <>
       <div
@@ -52,8 +56,8 @@ const Message = ({
           sender_type === "admin" && "my-4 shadow-md"
         )}
       >
-        <DropdownMenu>
-          <DropdownMenuTrigger>
+        <ContextMenu>
+          <ContextMenuTrigger>
             <div
               className={cn(
                 "rounded-md border border-lightGray px-[10px] py-[6px]",
@@ -64,9 +68,7 @@ const Message = ({
               <div
                 className={cn(
                   "flex  items-center gap-2 text-sm",
-                  !is_me && !isAdminView
-                    ? " text-primary"
-                    : "text-secondaryColor",
+                  !is_me && !isAdminView ? " text-primary" : "text-gray-900",
                   sender_type === "admin" &&
                     "text-[16px] font-bold text-primary"
                 )}
@@ -86,7 +88,9 @@ const Message = ({
                     ? "أنت"
                     : sender_name}
                 </span>
-                <span className="text-[11px]">{created_at}</span>
+                <span className="text-[11px]">
+                  {dayjs(created_at).fromNow()}
+                </span>
               </div>
               <div className="mt-2 flex items-center gap-1">
                 {isLoading ? (
@@ -121,25 +125,25 @@ const Message = ({
               </div>
               <span className="text-[10px] text-red-500">{errorMessage}</span>
             </div>
-          </DropdownMenuTrigger>
+          </ContextMenuTrigger>
           {/* <ContextMenuTrigger>Right click</ContextMenuTrigger> */}
-          <DropdownMenuContent>
-            <DropdownMenuItem
+          <ContextMenuContent>
+            <ContextMenuItem
               onClick={handleCopy}
               className="flex-end  justify-end gap-1"
             >
               <span>نسخ</span>
               <Copy className="mr-2 h-4 w-4 " />
-            </DropdownMenuItem>
-            <DropdownMenuItem
+            </ContextMenuItem>
+            <ContextMenuItem
               onClick={handleDeleteMessage}
               className="flex-end justify-end gap-1  text-red-500 hover:!text-red-600"
             >
               <span>حذف الرسالة</span>
               <ShieldAlert className="mr-2 h-4 w-4 " />
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+            </ContextMenuItem>
+          </ContextMenuContent>
+        </ContextMenu>
       </div>
     </>
   )

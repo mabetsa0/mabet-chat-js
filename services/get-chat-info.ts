@@ -2,13 +2,13 @@ import api from "./axios"
 import { ChatInfoResponse } from "@/@types/chat-info-response"
 
 export const getChatInfo = async ({
-  chatID,
+  uuid,
   token,
 }: {
-  chatID: string
+  uuid: string
   token: string
 }) => {
-  const response = await api.get<ChatInfoResponse>(`/conversations/${chatID}`, {
+  const response = await api.get<ChatInfoResponse>(`/conversations/${uuid}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
