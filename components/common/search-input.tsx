@@ -1,12 +1,10 @@
 "use client"
 
-import React, { useEffect, useState } from "react"
-import { Search } from "lucide-react"
+import React, { useState } from "react"
 
-import { Input } from "../ui/input"
-import { useQueryState } from "nuqs"
-import { parseAsString } from "nuqs"
 import { useDebouncedCallback } from "@/hooks/use-debounced-callback"
+import { parseAsString, useQueryState } from "nuqs"
+import { Input } from "../ui/input"
 
 type Props = {}
 
