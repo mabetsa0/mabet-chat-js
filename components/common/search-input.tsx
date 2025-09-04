@@ -25,7 +25,7 @@ const SearchChats = (props: Props) => {
           value={value}
           onChange={handleChange}
           placeholder="ابحث عن محادثة ......"
-          className=" py-3 rounded-3xl h-12 ite pr-12 placeholder:font-bold"
+          className="  rounded-3xl h-10 ite pr-12 placeholder:font-bold"
         />
         <svg
           className="absolute right-3 top-1/2 -translate-y-1/2"

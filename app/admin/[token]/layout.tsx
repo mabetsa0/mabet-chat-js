@@ -22,22 +22,22 @@ export default async function AdminLayout({
   return (
     <SessionStoreProvider accessToken={accessToken}>
       <main className="h-screen">
-        <div className="  rounded-b-2xl bg-primary p-6  text-white">
+        <div className="  rounded-b-2xl bg-primary p-4  text-white">
           <div className="flex items-center gap-2">
-            <Avatar className=" h-16 w-16 border-[3px] border-white">
+            <Avatar className=" size-14 border-[3px] border-white">
               <AvatarImage src={""} />
               <AvatarFallback>US</AvatarFallback>
             </Avatar>
             <div>
-              <p className="mb-2 font-bold">{"name"}</p>
+              <p className="mb-1 font-bold">{"name"}</p>
               <p className="text-sm font-semibold">
                 مرحبا {"name"}, نتمنى لك يوما سعيد .!
               </p>
             </div>
           </div>
         </div>
-        <div className="flex gap-8 h-[calc(100vh-115px)]">
-          <div className="w-full max-w-md bg-accent/80 px-4 border-l ">
+        <div className="flex gap-8 h-[calc(100vh-90px)]">
+          <div className="w-full max-w-sm bg-accent/50 px-4 border-l ">
             <div className="mb-4">
               <SearchChats />
             </div>

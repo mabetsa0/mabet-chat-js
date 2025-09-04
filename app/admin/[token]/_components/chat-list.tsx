@@ -17,7 +17,10 @@ const ChatList = () => {
 
   return (
     <>
-      <div dir="ltr" className="flex items-center gap-2 space-x-2 px-4 py-2 ">
+      <div
+        dir="ltr"
+        className="flex items-center justify-between gap-2  px-4 py-2 "
+      >
         <Switch
           id="show_reported_chats"
           checked={showReportedChats}
@@ -29,7 +32,9 @@ const ChatList = () => {
         {data?.map((chat, i) => (
           <AdminChatItem key={`chat_${chat.id}`} {...chat} />
         ))}
-        {isFetching ? <Loader2 className="animate-spine size-8" /> : null}
+        {isFetching ? (
+          <Loader2 className="animate-spin size-8 mx-auto my-20" />
+        ) : null}
         <div className="h-5 " ref={triggerRef}></div>
       </ScrollArea>
     </>
