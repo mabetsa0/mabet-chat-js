@@ -1,17 +1,20 @@
+import { ChatResponse } from "@/@types/chat-response"
 import api from "./axios"
 
 export const getChat = async ({
-  chatID,
   token,
+  uuid,
 }: {
-  chatID: string
   token: string
+  uuid: string
 }) => {
-  const response = await api.get(`/api/v1/conversations/${chatID}/messages`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
-
-  return response.data
+  const response = await api.get<ChatResponse>(
+    `/conversations/${uuid}/messages`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  )
+  return response.data.data
 }

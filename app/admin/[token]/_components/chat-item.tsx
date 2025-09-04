@@ -25,7 +25,7 @@ const AdminChatItem = ({ conversation }: { conversation: Conversation }) => {
 
   return (
     <div dir="rtl" className="relative" ref={ref}>
-      <Link href={`/admin/${token}/chats/${conversation.uuid}`}>
+      <Link href={`/admin/${token}/chat/${conversation.uuid}`}>
         <div
           className={cn(
             " relative flex   gap-2 border-b border-t bg-white px-4 py-3 duration-200",
@@ -48,9 +48,14 @@ const AdminChatItem = ({ conversation }: { conversation: Conversation }) => {
           </div>
 
           <div>
-            <div className="  mb-2 flex gap-1 text-sm">
-              <span>{conversation.initiator_name?.trim() || "ضيف"}</span>&
-              <span>{conversation.title?.trim()}</span>
+            <div className="  mb-2">
+              <p className="flex gap-1 text-sm font-semibold">
+                <span>{conversation.initiator_name?.trim() || "unknown"}</span>&
+                <span>{conversation.title?.trim() || "unknown"}</span>
+              </p>
+              <span className="text-xs font-medium text-gray-600">
+                {conversation.topic_name || "unknown"}
+              </span>
             </div>
             <span
               className={cn(

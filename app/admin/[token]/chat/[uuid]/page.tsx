@@ -1,16 +1,12 @@
-import { getChat } from "@/services/get-chat"
-import {
-  dehydrate,
-  HydrationBoundary,
-  QueryClient,
-} from "@tanstack/react-query"
+import { getChatInfo } from "@/services/get-chat-info"
 import { MoreVertical, User } from "lucide-react"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 // import AdminChatBody from "@/components/admin-chat-body"
-import { queryClient } from "@/app/providers"
 import BackButton from "@/components/common/back-button"
 import { Button } from "@/components/ui/button"
+import { getAccessToken } from "@/services/get-access-token"
+import AdminChatBody from "./_components/chat-body"
 export const dynamic = "force-dynamic"
 export default async function Page({
   params,
@@ -19,12 +15,9 @@ export default async function Page({
 }) {
   const { chatID, token: tokenParam } = await params
   const token = decodeURIComponent(tokenParam)
-  const chatData = await getChat({ chatID, token })
+  const accessToken = await getAccessToken(token)
+  const chatData = await getChatInfo({ chatID, token: accessToken })
 
-  await queryClient.prefetchQuery({
-    queryKey: [chatID],
-    queryFn: async () => await getChat({ chatID, token }),
-  })
   return (
     <main>
       <div className="space-y-6 rounded-b-2xl  p-6  text-primary">
@@ -32,14 +25,21 @@ export default async function Page({
           <BackButton />
           <div className="flex grow items-center gap-2">
             <Avatar className="h-[60px] w-[60px] border-[3px] border-primary">
-              <AvatarImage src={chatData.data.user[0].avatar} />
+              <AvatarImage src={chatData.image} />
               <AvatarFallback>
                 <User />
               </AvatarFallback>
             </Avatar>
             <div>
-              <p className="mb-2 font-bold">{chatData.data.user[0].name}</p>
-              {/* <UserState chatID={chatID} token={token} /> */}
+              <div className="  mb-2">
+                <p className="flex gap-1 text-sm font-semibold">
+                  <span>{chatData.initiator_name?.trim() || "unknown"}</span>&
+                  <span>{chatData.title?.trim() || "unknown"}</span>
+                </p>
+                <span className="text-xs font-medium text-gray-600">
+                  {chatData.topic_name || "unknown"}
+                </span>
+              </div>
             </div>
           </div>
           <Button variant={"ghost"} size={"icon"}>
@@ -47,9 +47,7 @@ export default async function Page({
           </Button>
         </div>
       </div>
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        {/* <AdminChatBody chatID={chatID} token={token} /> */}
-      </HydrationBoundary>
+      <AdminChatBody />
     </main>
   )
 }
