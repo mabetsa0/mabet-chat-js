@@ -28,9 +28,9 @@ const ChatList = () => {
         />
         <Label htmlFor="show_reported_chats">عرض المحادثات المبلغ عليها </Label>
       </div>
-      <ScrollArea className="bg-stale-50 h-[calc(100vh-250px)]">
+      <ScrollArea className="bg-stale-50 h-[calc(100vh-200px)]">
         {data?.map((chat, i) => (
-          <AdminChatItem key={`chat_${chat.id}`} {...chat} />
+          <AdminChatItem key={`chat_${chat.uuid}`} conversation={chat} />
         ))}
         {isFetching ? (
           <Loader2 className="animate-spin size-8 mx-auto my-20" />

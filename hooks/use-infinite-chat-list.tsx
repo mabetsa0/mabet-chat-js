@@ -13,7 +13,7 @@ type UseInfiniteChatListParams = {
 export const useInfiniteChatList = ({
   showReportedChats,
 }: UseInfiniteChatListParams) => {
-  const [q] = useQueryState("q", parseAsString)
+  const [q] = useQueryState("q", parseAsString.withDefault(""))
   const accessToken = useSessionStore((state) => state.accessToken)
   const triggerRef = useRef<React.ComponentRef<"div">>(null)
 
