@@ -10,11 +10,11 @@ dayjs.extend(relativeTime)
 dayjs.extend(calendar)
 
 type Props = {
-  date: string
+  date: Date
 }
 
 const DateIndicator = ({ date }: Props) => {
-  const formatDate = (dateString: string) => {
+  const formatDate = (dateString: Date) => {
     const date = dayjs(dateString)
     const now = dayjs()
 

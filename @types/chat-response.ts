@@ -15,5 +15,5 @@ export interface Message {
   sender_name: string
   conversation_uuid: string
   content: string
-  created_at: string
+  created_at: Date
 }

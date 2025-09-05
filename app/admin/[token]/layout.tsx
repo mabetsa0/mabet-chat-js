@@ -22,7 +22,7 @@ export default async function AdminLayout({
   return (
     <SessionStoreProvider accessToken={accessToken}>
       <main className="h-screen">
-        <div className="  rounded-b-2xl bg-primary p-4  text-white">
+        {/* <div className="  rounded-b-2xl bg-primary p-4  text-white">
           <div className="flex items-center gap-2">
             <Avatar className=" size-14 border-[3px] border-white">
               <AvatarImage src={""} />
@@ -35,8 +35,8 @@ export default async function AdminLayout({
               </p>
             </div>
           </div>
-        </div>
-        <div className="flex gap-2 h-[calc(100vh-90px)]">
+        </div> */}
+        <div className="flex gap-2 h-screen ">
           <div className="w-full max-w-sm bg-accent/50 px-4 border-l ">
             <div className="mb-4">
               <SearchChats />

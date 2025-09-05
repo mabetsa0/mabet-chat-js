@@ -28,7 +28,7 @@ const ChatList = () => {
         />
         <Label htmlFor="show_reported_chats">عرض المحادثات المبلغ عليها </Label>
       </div>
-      <ScrollArea className="bg-stale-50 h-[calc(100vh-200px)]">
+      <ScrollArea className="bg-stale-50 h-[calc(100vh-120px)]">
         {data?.map((chat, i) => (
           <AdminChatItem key={`chat_${chat.uuid}`} conversation={chat} />
         ))}
