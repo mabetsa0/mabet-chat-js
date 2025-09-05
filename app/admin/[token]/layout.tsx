@@ -37,8 +37,8 @@ export default async function AdminLayout({
           </div>
         </div> */}
         <div className="flex gap-2 h-screen ">
-          <div className="w-full max-w-sm bg-accent/50 px-4 border-l ">
-            <div className="mb-4">
+          <div className="w-full max-w-[350px] bg-accent/50  border-l ">
+            <div className="mb-4 px-4">
               <SearchChats />
             </div>
             <ChatList />

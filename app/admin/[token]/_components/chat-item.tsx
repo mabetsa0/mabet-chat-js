@@ -5,32 +5,25 @@ import Link from "next/link"
 import { useParams, usePathname } from "next/navigation"
 import React, { useRef, useState } from "react"
 
+import { Conversation } from "@/@types/chats-response"
 import useClickOutside from "@/hooks/use-click-outside"
 import { cn } from "@/lib/utils"
-import { Conversation } from "@/@types/chats-response"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { useSessionStore } from "@/stores/session-store-provider"
+import dayjs from "dayjs"
 
-const AdminChatItem = ({ conversation }: { conversation: Conversation }) => {
+const ChatItem = ({ conversation }: { conversation: Conversation }) => {
   const { token } = useParams()
-  const [chatOptions, setChatOptions] = useState(false)
-
-  const ref = useRef<React.ComponentRef<"div">>(null)
-  useClickOutside(ref, () => {
-    setChatOptions(false)
-  })
 
   const pathName = usePathname()
 
   return (
-    <div dir="rtl" className="relative" ref={ref}>
+    <div dir="rtl" className="relative">
       <Link href={`/admin/${token}/chat/${conversation.uuid}`}>
         <div
           className={cn(
-            " relative flex   gap-2 border-b border-t bg-white px-4 py-3 duration-200",
-            chatOptions && "!translate-x-[5.8rem]",
-            pathName.includes(conversation.uuid) && " bg-gray-100"
+            " relative flex hover:bg-gray-200 gap-2 border-b border-t bg-white px-4 py-2.5 duration-100",
+            pathName.includes(conversation.uuid) && " bg-gray-200"
           )}
         >
           <div className="flex gap-2">
@@ -68,9 +61,9 @@ const AdminChatItem = ({ conversation }: { conversation: Conversation }) => {
           </div>
           <div className=" mr-auto">
             <span className="block text-[10px] leading-loose text-[#494949] ">
-              {new Date(
+              {dayjs(
                 conversation.last_message?.created_at || conversation.created_at
-              ).toLocaleDateString("ar-SA")}
+              ).format("DD MMM YYYY")}
             </span>
             {conversation.unread_messages_count > 0 ? (
               <span className="mt-2 block w-fit rounded bg-green-100 p-1 text-[10px] font-bold text-green-500 ">
@@ -87,4 +80,4 @@ const AdminChatItem = ({ conversation }: { conversation: Conversation }) => {
   )
 }
 
-export default AdminChatItem
+export default ChatItem

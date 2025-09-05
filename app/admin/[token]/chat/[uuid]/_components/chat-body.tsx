@@ -29,8 +29,8 @@ const AdminChatBody = () => {
 
   if (isLoading)
     return (
-      <div className="flex justify-center items-center h-[calc(100vh-270px)]">
-        <Loader2 className="h-6 w-6 animate-spin" />
+      <div className="flex justify-center items-center h-[calc(100vh-100px)]">
+        <Loader2 className="size-8 animate-spin text-primary" />
       </div>
     )
   return (
