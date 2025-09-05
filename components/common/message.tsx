@@ -26,10 +26,12 @@ const Message = ({
   errorMessage,
   is_me,
   isLoading,
+  className,
 }: Props & {
   errorMessage?: string
   is_me?: boolean
   isLoading?: boolean
+  className?: string
 }) => {
   const handleCopy = async () => {
     navigator.clipboard
@@ -53,7 +55,8 @@ const Message = ({
         dir="rtl"
         className={cn(
           "my-2 flex select-none  px-5 ",
-          sender_type === "admin" && "my-4 shadow-md"
+          sender_type === "admin" && "my-4 shadow-md",
+          className
         )}
       >
         <ContextMenu>

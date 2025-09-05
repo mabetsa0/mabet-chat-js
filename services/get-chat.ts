@@ -4,12 +4,12 @@ import api from "./axios"
 export const getChat = async ({
   token,
   uuid,
-  page = 1,
+  oldestMessageId,
   pageSize = 20,
 }: {
   token: string
   uuid: string
-  page?: number
+  oldestMessageId?: string | number
   pageSize?: number
 }) => {
   const response = await api.get<ChatResponse>(
@@ -19,7 +19,7 @@ export const getChat = async ({
         Authorization: `Bearer ${token}`,
       },
       params: {
-        page,
+        oldestMessageId,
         pageSize,
       },
     }

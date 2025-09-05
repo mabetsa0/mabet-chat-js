@@ -1,18 +1,21 @@
 "use client"
 
-import React, { useRef, useEffect } from "react"
 import { useInfiniteChat } from "@/hooks/use-infinite-chat"
+import React, { useEffect, useRef } from "react"
 
-import Message from "@/components/common/message"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Loader2 } from "lucide-react"
 import ChatInput from "@/components/common/chat-input"
 import DateIndicator from "@/components/common/date-indicator"
-import { useParams } from "next/navigation"
+import Message from "@/components/common/message"
+import { ScrollArea } from "@/components/ui/scroll-area"
 import dayjs from "dayjs"
+import { Loader2 } from "lucide-react"
+import { useParams } from "next/navigation"
+import { useChatData } from "@/contexts/chat-context"
 // import UnitCard from "@/components/common/unit-card"
 
 const AdminChatBody = () => {
+  const chatData = useChatData()
+
   const { uuid } = useParams<{ uuid: string }>()!
   const { messages, isLoading, isFetchingNextPage, hasNextPage, triggerRef } =
     useInfiniteChat({ uuid })
@@ -32,7 +35,7 @@ const AdminChatBody = () => {
     )
   return (
     <>
-      <ScrollArea className={"relative h-[calc(100vh-270px)] pt-5"}>
+      <ScrollArea className={"relative h-[calc(100vh-270px)] "}>
         {/* Infinite scroll trigger at the top */}
         {hasNextPage && (
           <div ref={triggerRef} className="flex justify-center py-4">
@@ -58,12 +61,7 @@ const AdminChatBody = () => {
                 <DateIndicator date={message.created_at} />
               ) : null}
               <div ref={index === messages.length - 1 ? lastMessageRef : null}>
-                <Message
-                  {...message}
-                  is_me={message.sender_id === 1}
-                  isLoading={false}
-                  errorMessage={undefined}
-                />
+                <Message {...message} />
               </div>
             </React.Fragment>
           )

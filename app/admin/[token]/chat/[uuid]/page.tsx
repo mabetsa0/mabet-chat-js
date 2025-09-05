@@ -7,6 +7,7 @@ import BackButton from "@/components/common/back-button"
 import { Button } from "@/components/ui/button"
 import { getAccessToken } from "@/services/get-access-token"
 import AdminChatBody from "./_components/chat-body"
+import { ChatProvider } from "@/contexts/chat-context"
 export const dynamic = "force-dynamic"
 export default async function Page({
   params,
@@ -19,35 +20,37 @@ export default async function Page({
   const chatData = await getChatInfo({ uuid, token: accessToken })
 
   return (
-    <main>
-      <div className=" bg-red-500  p-4  text-primary">
-        <div className="flex items-center justify-between gap-4 ">
-          <BackButton />
-          <div className="flex grow items-center gap-2">
-            <Avatar className="size-12 border-[3px] border-primary">
-              <AvatarImage src={chatData.image} />
-              <AvatarFallback>
-                <User />
-              </AvatarFallback>
-            </Avatar>
-            <div>
-              <div className="  mb-2">
-                <p className="flex gap-1 text-sm font-semibold">
-                  <span>{chatData.initiator_name?.trim() || "unknown"}</span>&
-                  <span>{chatData.title?.trim() || "unknown"}</span>
-                </p>
-                <span className="text-xs font-medium text-gray-600">
-                  {chatData.topic_name || "unknown"}
-                </span>
+    <ChatProvider chatData={chatData}>
+      <main>
+        <div className="  p-4  text-primary">
+          <div className="flex items-center justify-between gap-4 ">
+            <BackButton />
+            <div className="flex grow items-center gap-2">
+              <Avatar className="size-12 border-[3px] border-primary">
+                <AvatarImage src={chatData.image} />
+                <AvatarFallback>
+                  <User />
+                </AvatarFallback>
+              </Avatar>
+              <div>
+                <div className="  mb-2">
+                  <p className="flex gap-1 text-sm font-semibold">
+                    <span>{chatData.initiator_name?.trim() || "unknown"}</span>&
+                    <span>{chatData.title?.trim() || "unknown"}</span>
+                  </p>
+                  <span className="text-xs font-medium text-gray-600">
+                    {chatData.topic_name || "unknown"}
+                  </span>
+                </div>
               </div>
             </div>
+            <Button variant={"ghost"} size={"icon"}>
+              <MoreVertical />
+            </Button>
           </div>
-          <Button variant={"ghost"} size={"icon"}>
-            <MoreVertical />
-          </Button>
         </div>
-      </div>
-      <AdminChatBody />
-    </main>
+        <AdminChatBody />
+      </main>
+    </ChatProvider>
   )
 }

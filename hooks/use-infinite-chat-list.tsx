@@ -32,9 +32,12 @@ export const useInfiniteChatList = ({
     refetchOnMount: "always",
     refetchOnWindowFocus: "always",
     refetchOnReconnect: "always",
-    initialPageParam: 1,
+    initialPageParam: "",
     getNextPageParam: (lastPage, pages, lastPageParam) => {
-      return lastPage.data.has_more ? lastPageParam + 1 : null
+      return lastPage.data.has_more
+        ? lastPage.data.conversations[lastPage.data.conversations.length - 1]
+            .id + ""
+        : null
     },
   })
 

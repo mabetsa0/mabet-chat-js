@@ -19,16 +19,18 @@ export const useInfiniteChat = ({ uuid }: UseInfiniteChatParams) => {
       return await getChat({
         uuid,
         token: accessToken,
-        page: pageParam,
+        oldestMessageId: pageParam,
         pageSize: 20,
       })
     },
     refetchOnMount: "always",
     refetchOnWindowFocus: "always",
     refetchOnReconnect: "always",
-    initialPageParam: 1,
-    getNextPageParam: (lastPage, pages, lastPageParam) => {
-      return lastPage.has_more ? lastPageParam + 1 : null
+    initialPageParam: "",
+    getNextPageParam: (lastPage) => {
+      return lastPage.has_more
+        ? lastPage.messages[lastPage.messages.length - 1].id
+        : null
     },
   })
 
@@ -72,7 +74,9 @@ export const useInfiniteChat = ({ uuid }: UseInfiniteChatParams) => {
   // Reverse each page's messages and flatten all pages
   // This ensures messages are displayed in chronological order (oldest first, newest last)
   const allMessages =
-    query.data?.pages.flatMap((page) => [...page.messages].reverse()) || []
+    query.data?.pages
+      .toReversed()
+      .flatMap((page) => [...page.messages].reverse()) || []
 
   return {
     ...query,

@@ -36,7 +36,7 @@ export default async function AdminLayout({
             </div>
           </div>
         </div>
-        <div className="flex gap-8 h-[calc(100vh-90px)]">
+        <div className="flex gap-2 h-[calc(100vh-90px)]">
           <div className="w-full max-w-sm bg-accent/50 px-4 border-l ">
             <div className="mb-4">
               <SearchChats />
