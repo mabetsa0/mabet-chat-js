@@ -37,7 +37,7 @@ const ChatInput = () => {
   }
 
   return (
-    <div className="!my-4  flex items-center gap-4 px-4">
+    <div className="py-4 bg-white flex items-center gap-4 px-4 absolute bottom-0 inset-x-0">
       <div className="relative w-full">
         <Textarea
           ref={textAreRef}
@@ -46,7 +46,7 @@ const ChatInput = () => {
           value={inputMessage}
           onChange={handleInputMessageChange}
           onKeyDown={handleEnterKeyDown}
-          className=" min-h-[40px] resize-none rounded-xl border-[#EBEBEB] bg-white py-3 pl-11 shadow placeholder:font-bold placeholder:text-[#A1A1A1]"
+          className=" max-h-[90px] min-h-[40px] resize-none rounded-xl border-[#EBEBEB] bg-white py-3 pl-11 shadow placeholder:font-bold placeholder:text-[#A1A1A1]"
         />
       </div>
       <Button

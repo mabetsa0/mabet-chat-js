@@ -34,8 +34,8 @@ const AdminChatBody = () => {
       </div>
     )
   return (
-    <>
-      <ScrollArea className={"relative h-[calc(100vh-170px)] "}>
+    <div className="h-[calc(100vh-100px)] relative">
+      <ScrollArea className={"relative h-full pb-21 "}>
         {/* Infinite scroll trigger at the top */}
         {hasNextPage && (
           <div ref={triggerRef} className="flex justify-center py-4">
@@ -68,7 +68,7 @@ const AdminChatBody = () => {
         })}
       </ScrollArea>
       <ChatInput />
-    </>
+    </div>
   )
 }
 
