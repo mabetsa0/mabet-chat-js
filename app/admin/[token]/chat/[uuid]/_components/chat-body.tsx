@@ -11,6 +11,7 @@ import dayjs from "dayjs"
 import { Loader2 } from "lucide-react"
 import { useParams } from "next/navigation"
 import { useChatData } from "@/contexts/chat-context"
+import UnitCard from "@/components/common/unit-card"
 // import UnitCard from "@/components/common/unit-card"
 
 const AdminChatBody = () => {
@@ -47,15 +48,23 @@ const AdminChatBody = () => {
           </div>
         )}
 
+        {/* {message !== state[index - 1]?.unit_id ? (
+  data?.data.unit?.[message.unit_id] ? (
+  ) : null
+) : null} */}
+
+        <UnitCard
+          unit={{
+            name: "test",
+            code: "test",
+            address: "test",
+            image: "test",
+            link: "test",
+          }}
+        />
         {messages.map((message, index) => {
           return (
             <React.Fragment key={`message_${message.id}`}>
-              {/* {message !== state[index - 1]?.unit_id ? (
-                data?.data.unit?.[message.unit_id] ? (
-                  <UnitCard unit={data!.data.unit?.[message.unit_id]} />
-                ) : null
-              ) : null} */}
-
               {dayjs(message.created_at).format("DD/MM/YYYY") !==
               dayjs(messages[index - 1]?.created_at).format("DD/MM/YYYY") ? (
                 <DateIndicator date={message.created_at} />
