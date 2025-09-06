@@ -1,5 +1,5 @@
-import { ChatResponse } from "@/@types/chat-response"
-import api from "./axios"
+import { ChatResponse } from '@/@types/chat-response'
+import api from './axios'
 
 export const getChat = async ({
   token,

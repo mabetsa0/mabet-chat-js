@@ -1,15 +1,15 @@
-"use client"
+'use client'
 
-import React, { useState } from "react"
+import React, { useState } from 'react'
 
-import { useDebouncedCallback } from "@/hooks/use-debounced-callback"
-import { parseAsString, useQueryState } from "nuqs"
-import { Input } from "../ui/input"
+import { useDebouncedCallback } from '@/hooks/use-debounced-callback'
+import { parseAsString, useQueryState } from 'nuqs'
+import { Input } from '../ui/input'
 
 type Props = {}
 
 const SearchChats = (props: Props) => {
-  const [q, setQ] = useQueryState("q", parseAsString.withDefault(""))
+  const [q, setQ] = useQueryState('q', parseAsString.withDefault(''))
   const [value, setValue] = useState(q)
 
   const search = useDebouncedCallback(setQ, 500)
@@ -19,16 +19,16 @@ const SearchChats = (props: Props) => {
     search(e.target.value)
   }
   return (
-    <div className="mt-4  flex items-center gap-4">
+    <div className="mt-4 flex items-center gap-4">
       <div className="relative w-full">
         <Input
           value={value}
           onChange={handleChange}
           placeholder="ابحث عن محادثة ......"
-          className="  rounded-3xl h-10 ite pr-12 placeholder:font-bold"
+          className="ite h-10 rounded-3xl pr-12 placeholder:font-bold"
         />
         <svg
-          className="absolute right-3 top-1/2 -translate-y-1/2"
+          className="absolute top-1/2 right-3 -translate-y-1/2"
           xmlns="http://www.w3.org/2000/svg"
           width="24"
           height="24"

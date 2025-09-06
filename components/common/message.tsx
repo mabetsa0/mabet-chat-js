@@ -1,16 +1,16 @@
-import { Copy, Loader2, ShieldAlert, User } from "lucide-react"
-import { usePathname } from "next/navigation"
+import { Copy, Loader2, ShieldAlert, User } from 'lucide-react'
+import { usePathname } from 'next/navigation'
 
-import { Message as MessageType } from "@/@types/chat-response"
+import { Message as MessageType } from '@/@types/chat-response'
 import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuTrigger,
-} from "@/components/ui/context-menu"
-import { cn, formateMessageDate } from "@/lib/utils"
+} from '@/components/ui/context-menu'
+import { cn, formateMessageDate } from '@/lib/utils'
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 const Message = ({
   id,
@@ -32,40 +32,40 @@ const Message = ({
     navigator.clipboard
       .writeText(content)
       .then(() => {
-        console.log("Text copied successfully!")
+        console.log('Text copied successfully!')
       })
       .catch((error) => {
-        console.error("Failed to copy text:", error)
+        console.error('Failed to copy text:', error)
       })
   }
   const handleDeleteMessage = async () => {
     // await deleteMessage(id)
   }
   const pathName = usePathname()
-  const isAdminView = pathName?.includes("/admin")
+  const isAdminView = pathName?.includes('/admin')
 
   return (
     <>
-      <div dir="rtl" className={cn("my-2 flex select-none  px-5  ", className)}>
+      <div dir="rtl" className={cn('my-2 flex px-5 select-none', className)}>
         <ContextMenu>
           <ContextMenuTrigger className="mr-auto">
             <div
               className={cn(
-                "rounded-md border border-lightGray px-[10px] py-[6px]",
-                errorMessage && "border-red-600 ",
-                sender_type === "admin" && "border-primary "
+                'border-lightGray rounded-md border px-[10px] py-[6px]',
+                errorMessage && 'border-red-600',
+                sender_type === 'admin' && 'border-primary'
               )}
             >
               <div
                 className={cn(
-                  "flex  items-center gap-2 text-sm max-w-sm",
-                  sender_type === "admin" &&
-                    "text-[16px] font-bold text-primary"
+                  'flex max-w-sm items-center gap-2 text-sm',
+                  sender_type === 'admin' &&
+                    'text-primary text-[16px] font-bold'
                 )}
               >
-                <Avatar className=" h-8 w-8 border-[3px] border-white">
+                <Avatar className="h-8 w-8 border-[3px] border-white">
                   <AvatarFallback>
-                    <User className=" h-4 w-4" />
+                    <User className="h-4 w-4" />
                   </AvatarFallback>
                 </Avatar>
                 <span className="font-bold">{sender_name}</span>
@@ -75,7 +75,7 @@ const Message = ({
               </div>
               <div className="mt-2 flex items-center gap-1">
                 {isLoading ? (
-                  <Loader2 className="h-4 w-4  animate-spin" />
+                  <Loader2 className="h-4 w-4 animate-spin" />
                 ) : null}
                 {errorMessage ? (
                   <svg
@@ -97,8 +97,8 @@ const Message = ({
                 ) : null}
                 <p
                   className={cn(
-                    " text-[#7B7B7B]",
-                    sender_type === "admin" && "font-bold  text-secondaryColor"
+                    'text-[#7B7B7B]',
+                    sender_type === 'admin' && 'text-secondaryColor font-bold'
                   )}
                 >
                   {content}
@@ -111,17 +111,17 @@ const Message = ({
           <ContextMenuContent>
             <ContextMenuItem
               onClick={handleCopy}
-              className="flex-end  justify-end gap-1"
+              className="flex-end justify-end gap-1"
             >
               <span>نسخ</span>
-              <Copy className="mr-2 h-4 w-4 " />
+              <Copy className="mr-2 h-4 w-4" />
             </ContextMenuItem>
             <ContextMenuItem
               onClick={handleDeleteMessage}
-              className="flex-end justify-end gap-1  text-red-500 hover:!text-red-600"
+              className="flex-end justify-end gap-1 text-red-500 hover:!text-red-600"
             >
               <span>حذف الرسالة</span>
-              <ShieldAlert className="mr-2 h-4 w-4 " />
+              <ShieldAlert className="mr-2 h-4 w-4" />
             </ContextMenuItem>
           </ContextMenuContent>
         </ContextMenu>

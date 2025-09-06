@@ -1,9 +1,9 @@
-"use client"
+'use client'
 
-import { useInfiniteQuery } from "@tanstack/react-query"
-import { getChat } from "@/services/get-chat"
-import { useSessionStore } from "@/stores/session-store-provider"
-import { useEffect, useRef } from "react"
+import { useInfiniteQuery } from '@tanstack/react-query'
+import { getChat } from '@/services/get-chat'
+import { useSessionStore } from '@/stores/session-store-provider'
+import { useEffect, useRef } from 'react'
 
 type UseInfiniteChatParams = {
   uuid: string
@@ -14,7 +14,7 @@ export const useInfiniteChat = ({ uuid }: UseInfiniteChatParams) => {
   const triggerRef = useRef<HTMLDivElement>(null)
 
   const query = useInfiniteQuery({
-    queryKey: ["chat-messages", uuid],
+    queryKey: ['chat-messages', uuid],
     queryFn: async ({ pageParam }) => {
       return await getChat({
         uuid,
@@ -23,10 +23,10 @@ export const useInfiniteChat = ({ uuid }: UseInfiniteChatParams) => {
         pageSize: 20,
       })
     },
-    refetchOnMount: "always",
-    refetchOnWindowFocus: "always",
-    refetchOnReconnect: "always",
-    initialPageParam: "",
+    refetchOnMount: 'always',
+    refetchOnWindowFocus: 'always',
+    refetchOnReconnect: 'always',
+    initialPageParam: '',
     getNextPageParam: (lastPage) => {
       return lastPage.has_more
         ? lastPage.messages[lastPage.messages.length - 1].id
@@ -54,7 +54,7 @@ export const useInfiniteChat = ({ uuid }: UseInfiniteChatParams) => {
         })
       },
       {
-        rootMargin: "100px", // Start loading when trigger is 100px away from viewport
+        rootMargin: '100px', // Start loading when trigger is 100px away from viewport
       }
     )
 

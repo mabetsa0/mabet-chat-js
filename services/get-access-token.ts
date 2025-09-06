@@ -1,5 +1,5 @@
-import React from "react"
-import { mainApi } from "./axios"
+import React from 'react'
+import { mainApi } from './axios'
 
 export const getAccessToken = React.cache(async (token: string) => {
   const response = await mainApi.post<{ token: string }>(

@@ -1,13 +1,13 @@
-"use client"
+'use client'
 
-import React, { useState } from "react"
+import React, { useState } from 'react'
 
-import { Label } from "@/components/ui/label"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Switch } from "@/components/ui/switch"
-import ChatItem from "./chat-item"
-import { Loader2 } from "lucide-react"
-import { useInfiniteChatList } from "@/hooks/use-infinite-chat-list"
+import { Label } from '@/components/ui/label'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { Switch } from '@/components/ui/switch'
+import ChatItem from './chat-item'
+import { Loader2 } from 'lucide-react'
+import { useInfiniteChatList } from '@/hooks/use-infinite-chat-list'
 
 const ChatList = () => {
   const [showReportedChats, setShowReportedChats] = useState(false)
@@ -19,7 +19,7 @@ const ChatList = () => {
     <>
       <div
         dir="ltr"
-        className="flex items-center justify-between gap-2  px-4 py-2 "
+        className="flex items-center justify-between gap-2 px-4 py-2"
       >
         <Switch
           id="show_reported_chats"
@@ -33,9 +33,9 @@ const ChatList = () => {
           <ChatItem key={`chat_${chat.uuid}`} conversation={chat} />
         ))}
         {isFetching ? (
-          <Loader2 className="animate-spin size-8 text-primary mx-auto my-20" />
+          <Loader2 className="text-primary mx-auto my-20 size-8 animate-spin" />
         ) : null}
-        <div className="h-5 " ref={triggerRef}></div>
+        <div className="h-5" ref={triggerRef}></div>
       </ScrollArea>
     </>
   )

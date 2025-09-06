@@ -1,9 +1,9 @@
-"use client"
+'use client'
 
-import React from "react"
-import { useRouter } from "next/navigation"
-import { ChevronRight } from "lucide-react"
-import { Button } from "../ui/button"
+import React from 'react'
+import { useRouter } from 'next/navigation'
+import { ChevronRight } from 'lucide-react'
+import { Button } from '../ui/button'
 
 type Props = {}
 
@@ -11,12 +11,12 @@ const BackButton = (props: Props) => {
   const router = useRouter()
   return (
     <Button
-      variant={"ghost"}
+      variant={'ghost'}
       onClick={() => router.back()}
       title="go back"
       size="icon"
     >
-      <ChevronRight className="w-5 shrink-0 text-secondaryColor" />
+      <ChevronRight className="text-secondaryColor w-5 shrink-0" />
     </Button>
   )
 }

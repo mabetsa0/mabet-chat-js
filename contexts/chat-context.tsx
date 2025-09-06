@@ -1,7 +1,7 @@
-"use client"
+'use client'
 
-import React, { createContext, useContext, ReactNode } from "react"
-import { ChatInfo } from "@/@types/chat-info-response"
+import React, { createContext, useContext, ReactNode } from 'react'
+import { ChatInfo } from '@/@types/chat-info-response'
 
 const ChatContext = createContext<ChatInfo | null>(null)
 
@@ -18,8 +18,8 @@ export const ChatProvider = ({ children, chatData }: ChatProviderProps) => {
 
 export const useChatData = () => {
   const context = useContext(ChatContext)
-  if (context === undefined) {
-    throw new Error("useChatData must be used within a ChatProvider")
+  if (!context) {
+    throw new Error('useChatData must be used within a ChatProvider')
   }
   return context
 }

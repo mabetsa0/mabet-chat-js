@@ -1,5 +1,5 @@
 // src/stores/session-store.ts
-import { createStore } from "zustand/vanilla"
+import { createStore } from 'zustand/vanilla'
 
 export type SessionState = {
   accessToken: string
@@ -12,7 +12,7 @@ export type SessionActions = {
 export type SessionStore = SessionState & SessionActions
 
 export const defaultInitState: SessionState = {
-  accessToken: "",
+  accessToken: '',
 }
 
 export const createSessionStore = (

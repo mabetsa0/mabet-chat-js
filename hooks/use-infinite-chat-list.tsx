@@ -1,10 +1,10 @@
-"use client"
+'use client'
 
-import { useInfiniteQuery } from "@tanstack/react-query"
-import { getChatList } from "@/services/get-chat-list"
-import { useSessionStore } from "@/stores/session-store-provider"
-import { parseAsString, useQueryState } from "nuqs"
-import React, { useEffect, useRef } from "react"
+import { useInfiniteQuery } from '@tanstack/react-query'
+import { getChatList } from '@/services/get-chat-list'
+import { useSessionStore } from '@/stores/session-store-provider'
+import { parseAsString, useQueryState } from 'nuqs'
+import React, { useEffect, useRef } from 'react'
 
 type UseInfiniteChatListParams = {
   showReportedChats: boolean
@@ -13,12 +13,12 @@ type UseInfiniteChatListParams = {
 export const useInfiniteChatList = ({
   showReportedChats,
 }: UseInfiniteChatListParams) => {
-  const [q] = useQueryState("q", parseAsString.withDefault(""))
+  const [q] = useQueryState('q', parseAsString.withDefault(''))
   const accessToken = useSessionStore((state) => state.accessToken)
-  const triggerRef = useRef<React.ComponentRef<"div">>(null)
+  const triggerRef = useRef<React.ComponentRef<'div'>>(null)
 
   const query = useInfiniteQuery({
-    queryKey: ["admin-chats-list", q, showReportedChats],
+    queryKey: ['admin-chats-list', q, showReportedChats],
     queryFn: async ({ pageParam }) => {
       return await getChatList({
         token: accessToken,
@@ -29,14 +29,14 @@ export const useInfiniteChatList = ({
         },
       })
     },
-    refetchOnMount: "always",
-    refetchOnWindowFocus: "always",
-    refetchOnReconnect: "always",
-    initialPageParam: "",
+    refetchOnMount: 'always',
+    refetchOnWindowFocus: 'always',
+    refetchOnReconnect: 'always',
+    initialPageParam: '',
     getNextPageParam: (lastPage, pages, lastPageParam) => {
       return lastPage.data.has_more
         ? lastPage.data.conversations[lastPage.data.conversations.length - 1]
-            .id + ""
+            .id + ''
         : null
     },
   })

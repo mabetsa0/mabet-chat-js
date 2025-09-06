@@ -1,10 +1,10 @@
 // src/providers/counter-store-provider.tsx
-"use client"
+'use client'
 
-import { type ReactNode, createContext, useRef, useContext } from "react"
-import { useStore } from "zustand"
+import { type ReactNode, createContext, useRef, useContext } from 'react'
+import { useStore } from 'zustand'
 
-import { type SessionStore, createSessionStore } from "@/stores/session-store"
+import { type SessionStore, createSessionStore } from '@/stores/session-store'
 
 export type SessionStoreApi = ReturnType<typeof createSessionStore>
 

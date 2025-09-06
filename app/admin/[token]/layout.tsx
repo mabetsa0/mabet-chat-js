@@ -1,11 +1,11 @@
 // import AdminChatView from "@/components/admin-chat-view"
-import SearchChats from "@/components/common/search-input"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { getAccessToken } from "@/services/get-access-token"
-import { SessionStoreProvider } from "@/stores/session-store-provider"
-import ChatList from "./_components/chat-list"
+import SearchChats from '@/components/common/search-input'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { getAccessToken } from '@/services/get-access-token'
+import { SessionStoreProvider } from '@/stores/session-store-provider'
+import ChatList from './_components/chat-list'
 
-export const dynamic = "force-dynamic"
+export const dynamic = 'force-dynamic'
 
 export default async function AdminLayout({
   children,
@@ -36,8 +36,8 @@ export default async function AdminLayout({
             </div>
           </div>
         </div> */}
-        <div className="flex gap-2 h-screen ">
-          <div className="w-full max-w-[350px] bg-accent/50  border-l ">
+        <div className="flex h-screen gap-2">
+          <div className="bg-accent/50 w-full max-w-[350px] border-l">
             <div className="mb-4 px-4">
               <SearchChats />
             </div>
