@@ -38,7 +38,7 @@ const DateIndicator = ({ date }: Props) => {
   }
 
   return (
-    <div className="sticky top-0 flex justify-center">
+    <div dir="rtl" className="sticky top-0 flex justify-center">
       <div className="text-foreground/80 w-36 rounded-3xl border border-[#EEEEEE] bg-white py-1 text-center text-sm font-semibold">
         {formatDate(date)}
       </div>
