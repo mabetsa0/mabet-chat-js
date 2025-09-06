@@ -30,8 +30,8 @@ const UnitCard = ({ unit: { name, image, id } }: Props) => {
                 alt={name}
               />
             </div>
-            <div className="space-y-2 p-2 text-xs">
-              <p className="font-bold">{name}</p>
+            <div className="space-y-2 p-2">
+              <p className="text-sm font-bold">{name}</p>
               {/* <div className="flex items-center gap-[2px]">
                 <QrCode className="h-[13px] w-[13px]" />
                 <span className="text-[8px] text-[#878787]">
@@ -45,10 +45,12 @@ const UnitCard = ({ unit: { name, image, id } }: Props) => {
               <a
                 href={`https://mabet.com.sa/ar/units/${id}`}
                 target="_blank"
-                className="flex items-center gap-[2px]"
+                className="flex items-center gap-1"
               >
-                <Eye className="h-[13px] w-[13px]" />
-                <span className="text-[8px] text-[#878787]"> عرض الوحدة</span>
+                <Eye className="size-4" />
+                <span className="text-muted-foreground text-xs font-medium">
+                  عرض الوحدة
+                </span>
               </a>
             </div>
           </div>
