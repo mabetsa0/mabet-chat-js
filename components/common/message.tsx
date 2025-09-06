@@ -11,6 +11,7 @@ import {
 import { cn, formateMessageDate } from '@/lib/utils'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { useChatData } from '@/contexts/chat-context'
 
 const Message = ({
   id,
@@ -28,6 +29,7 @@ const Message = ({
   isLoading?: boolean
   className?: string
 }) => {
+  const chatData = useChatData()
   const handleCopy = async () => {
     navigator.clipboard
       .writeText(content)
@@ -44,6 +46,8 @@ const Message = ({
   const pathName = usePathname()
   const isAdminView = pathName?.includes('/admin')
 
+  const isInitiator = chatData.initiator_id === sender_id
+
   return (
     <>
       <div dir="rtl" className={cn('my-2 flex px-5 select-none', className)}>
@@ -51,24 +55,27 @@ const Message = ({
           <ContextMenuTrigger className="mr-auto">
             <div
               className={cn(
-                'border-lightGray rounded-md border px-[10px] py-[6px]',
-                errorMessage && 'border-red-600',
-                sender_type === 'admin' && 'border-primary'
+                'text-foreground rounded-tr-xl rounded-b-xl bg-[#ebecee] px-3 py-2',
+                isInitiator && 'bg-[#3a81f5] text-white',
+                errorMessage && 'border-red-600 bg-red-500 text-white',
+                sender_type === 'admin' && 'border-primary border'
               )}
             >
               <div
                 className={cn(
-                  'flex max-w-sm items-center gap-2 text-sm',
+                  'flex max-w-sm items-center gap-4 text-sm',
                   sender_type === 'admin' &&
                     'text-primary text-[16px] font-bold'
                 )}
               >
-                <Avatar className="h-8 w-8 border-[3px] border-white">
-                  <AvatarFallback>
-                    <User className="h-4 w-4" />
-                  </AvatarFallback>
-                </Avatar>
-                <span className="font-bold">{sender_name}</span>
+                <div className="flex items-center gap-2">
+                  <Avatar className="size-8">
+                    <AvatarFallback>
+                      <User className="text-foreground size-4" />
+                    </AvatarFallback>
+                  </Avatar>
+                  <span className="font-bold">{sender_name}</span>
+                </div>
                 <span className="text-[11px]">
                   {formateMessageDate(created_at)}
                 </span>
@@ -97,8 +104,9 @@ const Message = ({
                 ) : null}
                 <p
                   className={cn(
-                    'text-[#7B7B7B]',
-                    sender_type === 'admin' && 'text-secondaryColor font-bold'
+                    'text-foreground',
+                    sender_type === 'admin' && 'text-secondaryColor font-bold',
+                    isInitiator && 'text-white'
                   )}
                 >
                   {content}
