@@ -4,7 +4,7 @@ const api = axios.create({
   baseURL:
     process.env.NEXT_PUBLIC_TEST === 'true'
       ? 'https://chat-test.mabet-app.com/api/v1'
-      : '',
+      : 'https://chat.mabet-app.com/api/v1',
 })
 
 const mainApi = axios.create({
