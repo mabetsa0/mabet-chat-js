@@ -1,6 +1,5 @@
 // import AdminChatView from "@/components/admin-chat-view"
 import SearchChats from '@/components/common/search-input'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { getAccessToken } from '@/services/get-access-token'
 import { SessionStoreProvider } from '@/stores/session-store-provider'
 import ChatList from './_components/chat-list'

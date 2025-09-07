@@ -6,9 +6,7 @@ import { useDebouncedCallback } from '@/hooks/use-debounced-callback'
 import { parseAsString, useQueryState } from 'nuqs'
 import { Input } from '../ui/input'
 
-type Props = {}
-
-const SearchChats = (props: Props) => {
+const SearchChats = () => {
   const [q, setQ] = useQueryState('q', parseAsString.withDefault(''))
   const [value, setValue] = useState(q)
 

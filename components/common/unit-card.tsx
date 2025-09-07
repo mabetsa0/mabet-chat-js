@@ -1,6 +1,5 @@
+import { Eye } from 'lucide-react'
 import React, { useRef } from 'react'
-import { Eye, MapPin, QrCode } from 'lucide-react'
-import useClickOutside from '@/hooks/use-click-outside'
 
 type Props = {
   unit: {

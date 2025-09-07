@@ -5,9 +5,7 @@ import { useRouter } from 'next/navigation'
 import { ChevronRight } from 'lucide-react'
 import { Button } from '../ui/button'
 
-type Props = {}
-
-const BackButton = (props: Props) => {
+const BackButton = () => {
   const router = useRouter()
   return (
     <Button

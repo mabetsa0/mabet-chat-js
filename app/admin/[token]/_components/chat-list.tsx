@@ -11,7 +11,7 @@ import { useInfiniteChatList } from '@/hooks/use-infinite-chat-list'
 
 const ChatList = () => {
   const [showReportedChats, setShowReportedChats] = useState(false)
-  const { data, isFetching, isLoading, triggerRef } = useInfiniteChatList({
+  const { data, isFetching, triggerRef } = useInfiniteChatList({
     showReportedChats,
   })
 

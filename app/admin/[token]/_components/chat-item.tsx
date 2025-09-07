@@ -3,10 +3,8 @@
 import { User } from 'lucide-react'
 import Link from 'next/link'
 import { useParams, usePathname } from 'next/navigation'
-import React, { useRef, useState } from 'react'
 
 import { Conversation } from '@/@types/chats-response'
-import useClickOutside from '@/hooks/use-click-outside'
 import { cn } from '@/lib/utils'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
