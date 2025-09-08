@@ -11,7 +11,7 @@ const mainApi = axios.create({
   baseURL:
     process.env.NEXT_PUBLIC_TEST === 'true'
       ? 'https://mabet.dev'
-      : 'https://mabet.com.sa',
+      : 'https://app.mabet.com.sa',
 })
 
 export { mainApi }
