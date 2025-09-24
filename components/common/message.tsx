@@ -10,8 +10,9 @@ import {
 } from '@/components/ui/context-menu'
 import { cn, formateMessageDate } from '@/lib/utils'
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { useChatData } from '@/contexts/chat-context'
+import { useDeleteMessage } from '@/hooks/use-delete-message'
 
 const Message = ({
   id,
@@ -40,11 +41,14 @@ const Message = ({
         console.error('Failed to copy text:', error)
       })
   }
+
+  const { mutate: deleteMessage, isPending } = useDeleteMessage()
   const handleDeleteMessage = async () => {
-    // await deleteMessage(id)
+    deleteMessage({ id })
   }
+
   const pathName = usePathname()
-  const isAdminView = pathName?.includes('/admin')
+  // const isAdminView = pathName?.includes('/admin')
 
   const isInitiator = chatData.initiator_id === sender_id
 
@@ -81,7 +85,7 @@ const Message = ({
                 </span>
               </div>
               <div className="mt-2 flex items-center gap-1">
-                {isLoading ? (
+                {isLoading || isPending ? (
                   <Loader2 className="h-4 w-4 animate-spin" />
                 ) : null}
                 {errorMessage ? (
@@ -129,7 +133,7 @@ const Message = ({
               className="flex-end justify-end gap-1 text-red-500 hover:!text-red-600"
             >
               <span>حذف الرسالة</span>
-              <ShieldAlert className="mr-2 h-4 w-4" />
+              <ShieldAlert className="mr-2 h-4 w-4 text-red-500" />
             </ContextMenuItem>
           </ContextMenuContent>
         </ContextMenu>
