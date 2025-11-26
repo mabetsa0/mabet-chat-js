@@ -3,7 +3,7 @@ import axios from 'axios'
 const api = axios.create({
   baseURL:
     process.env.NEXT_PUBLIC_TEST === 'true'
-      ? 'https://chat-test.mabet-app.com/api/v1'
+      ? 'https://chat-experimental.mabet-app.com' //'https://chat-test.mabet-app.com/api/v1'
       : 'https://chat.mabet-app.com/api/v1',
 })
 
