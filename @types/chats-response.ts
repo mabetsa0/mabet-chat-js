@@ -29,6 +29,7 @@ export interface Conversation {
 
 export interface LastMessage {
   id: string
+  message_type: string
   sender_id: number
   sender_type: string
   sender_name: string

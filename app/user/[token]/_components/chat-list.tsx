@@ -1,53 +1,38 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
-
-import { Conversation } from '@/@types/chats-response'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { useSendEvent } from '@/hooks/use-send-event'
-import { useWsEvent } from '@/hooks/use-ws-event'
-import { WS_ON_EVENTS, WS_SEND_EVENTS } from '@/services/ws/events'
-import { Loader2 } from 'lucide-react'
+import { useWsChatsList } from '@/hooks/use-ws-chats-list'
+import { Loader2, MessageSquare } from 'lucide-react'
+import ChatItem from './chat-item'
 
 const ChatList = ({ accessToken }: { accessToken: string }) => {
-  const [conversations, setConversations] = useState<Conversation[]>([])
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const { sendEvent } = useSendEvent()
-
-  const handleAuthenticated = useCallback((data: Conversation[]) => {
-    setIsLoading(false)
-    console.log('🚀 ~ useWsEvent ~ data:', data)
-    setConversations(data)
-  }, [])
-  // Register the event listener
-  useWsEvent<Conversation[]>(WS_ON_EVENTS.AUTHENTICATED, handleAuthenticated)
-
-  const handleError = useCallback((data: unknown) => {
-    console.log('🚀 ~ ChatList ~ error:', data)
-    setIsLoading(false)
-    setError(JSON.stringify(data))
-  }, [])
-
-  useWsEvent(WS_ON_EVENTS.ERROR, handleError)
-  // Send authenticate event
-  useEffect(() => {
-    setIsLoading(true)
-    sendEvent(WS_SEND_EVENTS.AUTHENTICATE, {
-      token: accessToken,
-      first_conversations_page_size: 10,
-    })
-  }, [accessToken, sendEvent])
+  const { data, isLoading, error, refetch } = useWsChatsList(accessToken)
 
   return (
     <>
-      <ScrollArea className="bg-stale-50 h-[calc(100vh-120px)]">
+      <ScrollArea className="bg-stale-50 h-screen">
         {isLoading ? (
-          <Loader2 className="text-primary mx-auto my-20 size-8 animate-spin" />
+          <div className="flex h-screen items-center justify-center">
+            <Loader2 className="text-primary mx-auto my-20 size-8 animate-spin" />
+          </div>
         ) : error ? (
           <div className="text-red-500">{error}</div>
+        ) : data && data.length > 0 ? (
+          data.map((conversation) => (
+            <ChatItem key={conversation.uuid} conversation={conversation} />
+          ))
         ) : (
-          JSON.stringify(conversations)
+          <div className="flex h-screen flex-col items-center justify-center gap-4 text-center">
+            <MessageSquare className="text-muted-foreground size-12" />
+            <div className="space-y-2">
+              <p className="text-muted-foreground text-lg font-medium">
+                لا توجد محادثات
+              </p>
+              <p className="text-muted-foreground text-sm">
+                لم يتم العثور على أي محادثات حتى الآن
+              </p>
+            </div>
+          </div>
         )}
       </ScrollArea>
     </>
