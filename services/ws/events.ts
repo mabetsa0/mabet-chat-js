@@ -1,7 +1,6 @@
 export const WS_SEND_EVENTS = {
   AUTHENTICATE: 'authenticate',
   TYPING_START: 'typing_start',
-  TYPING_STOP: 'typing_stop',
   SEND_MESSAGE: 'send_message',
   READ_MESSAGE: 'read_message',
   GET_CONVERSATION_PAGE: 'get_conversation_page',

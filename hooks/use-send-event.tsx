@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react'
-import { initWebSocket } from '@/services/ws'
+import { getOrInitWebSocket } from '@/services/ws'
 import { WSSendEvents } from '@/services/ws/events'
 
 type PendingEvent = {
@@ -11,7 +11,7 @@ export function useSendEvent() {
   const queueRef = useRef<PendingEvent[]>([])
 
   const flushQueue = useCallback(() => {
-    const socket = initWebSocket()
+    const socket = getOrInitWebSocket()
     if (!socket || socket.readyState !== WebSocket.OPEN) return
 
     while (queueRef.current.length) {
@@ -28,7 +28,7 @@ export function useSendEvent() {
   }, [])
 
   useEffect(() => {
-    const socket = initWebSocket()
+    const socket = getOrInitWebSocket()
     if (!socket) return
 
     if (socket.readyState === WebSocket.OPEN) {
@@ -45,7 +45,7 @@ export function useSendEvent() {
   }, [flushQueue])
 
   const sendEvent = useCallback(<T,>(event: WSSendEvents, payload: T) => {
-    const socket = initWebSocket()
+    const socket = getOrInitWebSocket()
 
     if (!socket || socket.readyState !== WebSocket.OPEN) {
       queueRef.current.push({ event, payload })

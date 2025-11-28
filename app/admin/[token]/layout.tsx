@@ -1,6 +1,6 @@
 // import AdminChatView from "@/components/admin-chat-view"
 import SearchChats from '@/components/common/search-input'
-import { getAccessToken } from '@/services/get-access-token'
+import { getAccessTokenFromHeaders } from '@/lib/get-access-token-from-headers'
 import { SessionStoreProvider } from '@/stores/session-store-provider'
 import ChatList from './_components/chat-list'
 
@@ -15,8 +15,13 @@ export default async function AdminLayout({
     token: string
   }>
 }) {
-  const { token } = await params
-  const accessToken = await getAccessToken(token)
+  const accessToken = await getAccessTokenFromHeaders()
+
+  if (!accessToken) {
+    throw new Error('Access token not found')
+  }
+
+  console.log('🚀 ~ AdminLayout ~ accessToken:', accessToken)
 
   return (
     <SessionStoreProvider accessToken={accessToken}>

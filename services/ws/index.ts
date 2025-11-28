@@ -38,17 +38,6 @@ function scheduleReconnect() {
 }
 
 function createWebSocket() {
-  if (typeof window === 'undefined') return null
-
-  // If an open/connecting socket already exists, reuse it
-  if (
-    socket &&
-    (socket.readyState === WebSocket.OPEN ||
-      socket.readyState === WebSocket.CONNECTING)
-  ) {
-    return socket
-  }
-
   const url = process.env.NEXT_PUBLIC_WS_URL
   if (!url) {
     console.error('NEXT_PUBLIC_WS_URL is not defined')
@@ -92,13 +81,18 @@ function createWebSocket() {
   return socket
 }
 
-export function getSocket() {
-  return createWebSocket()
-}
+export function getOrInitWebSocket() {
+  if (typeof window === 'undefined') return null
 
-export function initWebSocket() {
-  // Kept for backwards compatibility – just ensures the socket exists
-  return getSocket()
+  // If an open/connecting socket already exists, reuse it
+  if (
+    socket &&
+    (socket.readyState === WebSocket.OPEN ||
+      socket.readyState === WebSocket.CONNECTING)
+  ) {
+    return socket
+  }
+  return createWebSocket()
 }
 
 export function closeSocket() {
