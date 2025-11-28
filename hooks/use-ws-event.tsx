@@ -22,5 +22,5 @@ export function useWsEvent<T>(event: WSOnEvents, callback: (data: T) => void) {
     const unsubscribe = onEvent(event, stableCallback)
 
     return () => unsubscribe()
-  }, [event]) // Only re-register when event changes, not when callback changes
+  }, [event, callback])
 }
