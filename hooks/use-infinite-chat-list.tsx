@@ -7,7 +7,7 @@ import { parseAsString, useQueryState } from 'nuqs'
 import React, { useEffect, useRef } from 'react'
 
 type UseInfiniteChatListParams = {
-  showReportedChats: boolean
+  showReportedChats?: boolean
 }
 
 export const useInfiniteChatList = ({
@@ -18,7 +18,7 @@ export const useInfiniteChatList = ({
   const triggerRef = useRef<React.ComponentRef<'div'>>(null)
 
   const query = useInfiniteQuery({
-    queryKey: ['admin-chats-list', q, showReportedChats],
+    queryKey: ['admin-chats-list', q, showReportedChats ?? false],
     queryFn: async ({ pageParam }) => {
       return await getChatList({
         token: accessToken,

@@ -68,11 +68,11 @@ function createWebSocket() {
 
   socket.onmessage = (msg) => {
     try {
-      const { event, data } = JSON.parse(msg.data) as {
-        event: WSOnEvents
-        data: unknown
+      const { type, contents } = JSON.parse(msg.data) as {
+        type: WSOnEvents
+        contents: unknown
       }
-      emitEvent(event, data) // ⬅ central routing
+      emitEvent(type, contents) // ⬅ central routing
     } catch (e) {
       console.error('Invalid WS message:', msg.data)
     }

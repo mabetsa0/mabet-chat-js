@@ -17,7 +17,8 @@ const getCachedToken = (request: NextRequest) => {
 
   const isExpired = Date.now() - issuedAt > SIX_HOURS_MS
 
-  return isExpired ? null : tokenCookie.value
+  // return isExpired ? null : tokenCookie.value
+  return ''
 }
 
 const fetchAccessToken = async (token: string) => {
@@ -36,19 +37,18 @@ const fetchAccessToken = async (token: string) => {
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname
 
-  // Only handle admin routes
-  if (!pathname.startsWith('/admin/')) {
-    return NextResponse.next()
-  }
-
   // Extract token from URL
   const pathParts = pathname.split('/')
-  const tokenIndex = pathParts.indexOf('admin') + 1
-  if (tokenIndex >= pathParts.length) {
-    return NextResponse.next()
+  let tokenParam: string | undefined
+  if (pathParts.includes('admin')) {
+    const tokenIndex = pathParts.indexOf('admin') + 1
+
+    tokenParam = pathParts[tokenIndex]
+  } else if (pathParts.includes('user')) {
+    const tokenIndex = pathParts.indexOf('user') + 1
+    tokenParam = pathParts[tokenIndex]
   }
 
-  const tokenParam = pathParts[tokenIndex]
   if (!tokenParam) {
     return NextResponse.next()
   }
@@ -105,5 +105,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/admin/:path*'],
+  matcher: ['/admin/:path*', '/user/:path*'],
 }

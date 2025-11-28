@@ -20,24 +20,41 @@ export function useSendEvent() {
 
       socket.send(
         JSON.stringify({
-          event: next.event,
-          data: next.payload,
+          type: next.event,
+          contents: next.payload,
         })
       )
     }
   }, [])
 
   useEffect(() => {
+    // Initialize socket when hook mounts to ensure it's ready
     const socket = getOrInitWebSocket()
-    if (!socket) return
-
-    if (socket.readyState === WebSocket.OPEN) {
-      flushQueue()
+    if (!socket) {
+      console.warn('[useSendEvent] WebSocket initialization failed')
       return
     }
 
-    const handleOpen = () => flushQueue()
+    // Always set up the listener, even if socket is already open
+    // This handles reconnections and ensures queue is flushed
+    const handleOpen = () => {
+      console.log('[useSendEvent] WebSocket opened, flushing queue')
+      flushQueue()
+    }
+
     socket.addEventListener('open', handleOpen)
+
+    // If socket is already open, flush immediately
+    if (socket.readyState === WebSocket.OPEN) {
+      console.log('[useSendEvent] WebSocket already open, flushing queue')
+      flushQueue()
+    } else {
+      console.log(
+        '[useSendEvent] WebSocket state:',
+        socket.readyState,
+        'waiting for open...'
+      )
+    }
 
     return () => {
       socket.removeEventListener('open', handleOpen)
@@ -54,8 +71,8 @@ export function useSendEvent() {
 
     socket.send(
       JSON.stringify({
-        event,
-        data: payload,
+        type: event,
+        contents: payload,
       })
     )
   }, [])
