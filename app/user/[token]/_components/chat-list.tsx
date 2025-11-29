@@ -4,9 +4,20 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { useWsChatsList } from '@/hooks/use-ws-chats-list'
 import { Loader2, MessageSquare } from 'lucide-react'
 import ChatItem from './chat-item'
+import { useEffect } from 'react'
+import { useSendEvent } from '@/hooks/use-send-event'
+import { WS_SEND_EVENTS } from '@/services/ws/events'
 
 const ChatList = ({ accessToken }: { accessToken: string }) => {
   const { data, isLoading, error, refetch } = useWsChatsList(accessToken)
+
+  const {sendEvent} = useSendEvent()
+  useEffect(() => {
+    sendEvent(WS_SEND_EVENTS.SEND_MESSAGE, {
+      token: accessToken,
+      first_conversations_page_size: 10,
+    })
+  }, [refetch])
 
   return (
     <>

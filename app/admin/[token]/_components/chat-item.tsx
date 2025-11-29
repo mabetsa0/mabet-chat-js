@@ -17,7 +17,7 @@ const ChatItem = ({ conversation }: { conversation: Conversation }) => {
 
   return (
     <div dir="rtl" className="relative">
-      <Link href={`/admin/${token}/chat/${conversation.uuid}`}>
+      <Link prefetch={false} href={`/admin/${token}/chat/${conversation.uuid}`}>
         <div
           className={cn(
             'relative flex gap-2 border-t border-b bg-white px-4 py-2.5 duration-100 hover:bg-gray-200',
