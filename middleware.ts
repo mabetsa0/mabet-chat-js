@@ -1,10 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { mainApi } from './services/axios'
 
 const ACCESS_TOKEN_COOKIE = 'chat_admin_access_token'
 const ACCESS_TOKEN_ISSUED_AT_COOKIE = 'chat_admin_access_token_issued_at'
 const ACCESS_TOKEN_HEADER = 'x-access-token'
 const SIX_HOURS_MS = 6 * 60 * 60 * 1000
+
+// Get base URL for API calls (compatible with Edge Runtime)
+// NEXT_PUBLIC_* variables are available at build time in Edge Runtime
+const getMainBaseURL = () => {
+  // In Edge Runtime, we can access NEXT_PUBLIC_* env vars directly
+  // They're replaced at build time
+  const isTest = process.env.NEXT_PUBLIC_TEST === 'true'
+  return isTest ? 'https://mabet.dev' : 'https://app.mabet.com.sa'
+}
 
 const getCachedToken = (request: NextRequest) => {
   const tokenCookie = request.cookies.get(ACCESS_TOKEN_COOKIE)
@@ -22,20 +30,42 @@ const getCachedToken = (request: NextRequest) => {
 }
 
 const fetchAccessToken = async (token: string) => {
-  const response = await mainApi.post<{ token: string }>(
-    `/chat/api/v2/chat-token`,
-    {},
-    {
-      headers: {
-        Authorization: `Bearer ${decodeURIComponent(token)}`,
-      },
-    }
-  )
-  return response.data.token
+  const baseURL = getMainBaseURL()
+  const response = await fetch(`${baseURL}/chat/api/v2/chat-token`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${decodeURIComponent(token)}`,
+    },
+    body: JSON.stringify({}),
+  })
+
+  if (!response.ok) {
+    const error: any = new Error(`HTTP error! status: ${response.status}`)
+    error.response = { status: response.status }
+    throw error
+  }
+
+  const data = await response.json()
+  return data.token
 }
 
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname
+
+  // Manual path filtering for Netlify compatibility
+  // Skip static files, API routes, and other non-page routes
+  // This is important because Netlify may not respect the matcher config
+  if (
+    pathname.startsWith('/_next') ||
+    pathname.startsWith('/api') ||
+    pathname.startsWith('/static') ||
+    pathname.match(
+      /\.(ico|png|jpg|jpeg|gif|svg|webp|css|js|woff|woff2|ttf|eot)$/i
+    ) // Skip static assets
+  ) {
+    return NextResponse.next()
+  }
 
   // Extract token from URL
   const pathParts = pathname.split('/')
@@ -63,6 +93,10 @@ export async function middleware(request: NextRequest) {
   if (!accessToken) {
     try {
       accessToken = await fetchAccessToken(token)
+
+      if (!accessToken) {
+        throw new Error('Failed to fetch access token')
+      }
 
       // Save to cookies
       const expiresAt = new Date(Date.now() + SIX_HOURS_MS)
@@ -130,5 +164,7 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
+  // Netlify-compatible matcher pattern
+  // Use simpler patterns that Netlify can handle better
   matcher: ['/admin/:path*', '/user/:path*'],
 }
