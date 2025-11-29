@@ -23,7 +23,7 @@ export const useInfiniteChatList = ({
       return await getChatList({
         token: accessToken,
         params: {
-          page: pageParam,
+          oldestConversationId: pageParam,
           q,
           show_reported_chats: showReportedChats,
         },
@@ -36,7 +36,7 @@ export const useInfiniteChatList = ({
     getNextPageParam: (lastPage, pages, lastPageParam) => {
       return lastPage.data.has_more
         ? lastPage.data.conversations[lastPage.data.conversations.length - 1]
-            .id + ''
+            .uuid + ''
         : null
     },
   })
