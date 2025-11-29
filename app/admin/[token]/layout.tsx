@@ -16,6 +16,7 @@ export default async function AdminLayout({
   }>
 }) {
   const accessToken = await getAccessTokenFromHeaders()
+  console.log('🚀 ~ AdminLayout ~ accessToken:', accessToken)
 
   if (!accessToken) {
     throw new Error('Access token not found')
