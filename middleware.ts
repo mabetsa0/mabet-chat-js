@@ -7,9 +7,10 @@ const SIX_HOURS_MS = 6 * 60 * 60 * 1000
 
 // Get base URL for API calls (compatible with Edge Runtime)
 // NEXT_PUBLIC_* variables are available at build time in Edge Runtime
+// They are inlined during build, so we can access them directly
 const getMainBaseURL = () => {
-  // In Edge Runtime, we can access NEXT_PUBLIC_* env vars directly
-  // They're replaced at build time
+  // NEXT_PUBLIC_* vars are replaced at build time in Edge Runtime
+  // Access directly - this works in both Node and Edge Runtime
   const isTest = process.env.NEXT_PUBLIC_TEST === 'true'
   return isTest ? 'https://mabet.dev' : 'https://app.mabet.com.sa'
 }
@@ -25,8 +26,7 @@ const getCachedToken = (request: NextRequest) => {
 
   const isExpired = Date.now() - issuedAt > SIX_HOURS_MS
 
-  // return isExpired ? null : tokenCookie.value
-  return ''
+  return isExpired ? null : tokenCookie.value
 }
 
 const fetchAccessToken = async (token: string) => {
@@ -60,24 +60,27 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith('/_next') ||
     pathname.startsWith('/api') ||
     pathname.startsWith('/static') ||
+    pathname === '/' ||
     pathname.match(
-      /\.(ico|png|jpg|jpeg|gif|svg|webp|css|js|woff|woff2|ttf|eot)$/i
+      /\.(ico|png|jpg|jpeg|gif|svg|webp|css|js|woff|woff2|ttf|eot|json)$/i
     ) // Skip static assets
   ) {
     return NextResponse.next()
   }
 
-  // Extract token from URL
-  const pathParts = pathname.split('/')
-  console.log('🚀 ~ middleware ~ pathParts:', pathParts)
-  let tokenParam: string | undefined
-  if (pathParts.includes('admin')) {
-    const tokenIndex = pathParts.indexOf('admin') + 1
+  // Only process admin and user routes
+  if (!pathname.startsWith('/admin/') && !pathname.startsWith('/user/')) {
+    return NextResponse.next()
+  }
 
-    tokenParam = pathParts[tokenIndex]
-  } else if (pathParts.includes('user')) {
-    const tokenIndex = pathParts.indexOf('user') + 1
-    tokenParam = pathParts[tokenIndex]
+  // Extract token from URL
+  const pathParts = pathname.split('/').filter(Boolean)
+  let tokenParam: string | undefined
+
+  if (pathParts[0] === 'admin' && pathParts[1]) {
+    tokenParam = pathParts[1]
+  } else if (pathParts[0] === 'user' && pathParts[1]) {
+    tokenParam = pathParts[1]
   }
 
   if (!tokenParam) {
@@ -165,6 +168,5 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   // Netlify-compatible matcher pattern
-  // Use simpler patterns that Netlify can handle better
   matcher: ['/admin/:path*', '/user/:path*'],
 }
