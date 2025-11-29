@@ -21,8 +21,6 @@ export default async function AdminLayout({
     throw new Error('Access token not found')
   }
 
-  console.log('🚀 ~ AdminLayout ~ accessToken:', accessToken)
-
   return (
     <SessionStoreProvider accessToken={accessToken}>
       <main className="h-screen">

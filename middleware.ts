@@ -39,6 +39,7 @@ export async function middleware(request: NextRequest) {
 
   // Extract token from URL
   const pathParts = pathname.split('/')
+  console.log('🚀 ~ middleware ~ pathParts:', pathParts)
   let tokenParam: string | undefined
   if (pathParts.includes('admin')) {
     const tokenIndex = pathParts.indexOf('admin') + 1
@@ -91,9 +92,33 @@ export async function middleware(request: NextRequest) {
       response.headers.set(ACCESS_TOKEN_HEADER, accessToken)
 
       return response
-    } catch (error) {
-      console.error('Failed to fetch access token:', error)
-      return NextResponse.next()
+    } catch (error: any) {
+      // Handle unauthorized errors
+      const status = error?.response?.status
+
+      // Clear any invalid cookies
+      const errorResponse = NextResponse.redirect(new URL('/', request.url))
+      errorResponse.cookies.delete(ACCESS_TOKEN_COOKIE)
+      errorResponse.cookies.delete(ACCESS_TOKEN_ISSUED_AT_COOKIE)
+
+      // If it's an authentication/authorization error, return 401
+      if (status === 401 || status === 403) {
+        return new NextResponse(
+          JSON.stringify({
+            error: 'Unauthorized',
+            message: 'Invalid or expired token',
+          }),
+          {
+            status: 401,
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          }
+        )
+      }
+
+      // For other errors, redirect to home
+      return errorResponse
     }
   }
 
