@@ -7,7 +7,7 @@ import { parseAsString, useQueryState } from 'nuqs'
 import React, { useEffect, useRef } from 'react'
 
 type UseInfiniteChatListParams = {
-  showReportedChats: boolean
+  showReportedChats?: boolean
 }
 
 export const useInfiniteChatList = ({
@@ -18,12 +18,12 @@ export const useInfiniteChatList = ({
   const triggerRef = useRef<React.ComponentRef<'div'>>(null)
 
   const query = useInfiniteQuery({
-    queryKey: ['admin-chats-list', q, showReportedChats],
+    queryKey: ['admin-chats-list', q, showReportedChats ?? false],
     queryFn: async ({ pageParam }) => {
       return await getChatList({
         token: accessToken,
         params: {
-          page: pageParam,
+          oldestConversationId: pageParam,
           q,
           show_reported_chats: showReportedChats,
         },
@@ -36,7 +36,7 @@ export const useInfiniteChatList = ({
     getNextPageParam: (lastPage, pages, lastPageParam) => {
       return lastPage.data.has_more
         ? lastPage.data.conversations[lastPage.data.conversations.length - 1]
-            .id + ''
+            .uuid + ''
         : null
     },
   })
