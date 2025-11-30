@@ -16,6 +16,7 @@ export default async function UserLayout({
   }>
 }) {
   const { token } = await params
+  console.log('🚀 ~ UserLayout ~ token:', token)
   const { token: accessToken, cached } = await getAccessToken(token)
 
   return (
