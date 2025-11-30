@@ -5,7 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 // import AdminChatBody from "@/components/admin-chat-body"
 import BackButton from '@/components/common/back-button'
 import { Button } from '@/components/ui/button'
-import { getAccessTokenFromHeaders } from '@/lib/get-access-token-from-headers'
+import { getAccessToken } from '@/lib/get-access-token'
 import AdminChatBody from './_components/chat-body'
 import { ChatProvider } from '@/contexts/chat-context'
 export const dynamic = 'force-dynamic'
@@ -15,13 +15,12 @@ export default async function Page({
   params: Promise<{ uuid: string; token: string }>
 }) {
   const { uuid } = await params
-  const accessToken = await getAccessTokenFromHeaders()
+  const { token } = await params
+  const { token: accessToken, cached } = await getAccessToken(token)
 
   if (!accessToken) {
     throw new Error('Access token not found')
   }
-
-  console.log('🚀 ~ Page ~ accessToken:', accessToken)
   const chatData = await getChatInfo({ uuid, token: accessToken })
 
   return (

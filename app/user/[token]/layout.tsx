@@ -1,20 +1,22 @@
 // import AdminChatView from "@/components/admin-chat-view"
-import { getAccessTokenFromHeaders } from '@/lib/get-access-token-from-headers'
 import { SessionStoreProvider } from '@/stores/session-store-provider'
 import ChatList from './_components/chat-list'
+import { getAccessToken } from '@/lib/get-access-token'
+import { CacheAccessToken } from '@/components/common/cache-access-token'
 
 export const dynamic = 'force-dynamic'
 
 export default async function UserLayout({
   children,
+  params,
 }: {
   children: React.ReactNode
+  params: Promise<{
+    token: string
+  }>
 }) {
-  const accessToken = await getAccessTokenFromHeaders()
-
-  if (!accessToken) {
-    throw new Error('Access token not found')
-  }
+  const { token } = await params
+  const { token: accessToken, cached } = await getAccessToken(token)
 
   return (
     <SessionStoreProvider accessToken={accessToken}>
@@ -26,6 +28,7 @@ export default async function UserLayout({
           <div className="w-full">{children}</div>
         </div>
       </main>
+      <CacheAccessToken cached={cached} token={accessToken} />
     </SessionStoreProvider>
   )
 }

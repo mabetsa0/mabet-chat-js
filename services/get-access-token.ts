@@ -1,0 +1,15 @@
+import { mainApi } from './axios'
+
+export const fetchAccessToken = async (token: string) => {
+  console.log('🚀 ~ fetchAccessToken ~ token:', token)
+  const response = await mainApi.post<{ token: string; type: string }>(
+    `/chat/api/v2/chat-token`,
+    {
+      headers: {
+        Authorization: `Bearer ${decodeURIComponent(token)}`,
+      },
+    }
+  )
+
+  return response.data.token
+}
