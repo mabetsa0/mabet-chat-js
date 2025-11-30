@@ -31,6 +31,7 @@ const getCachedToken = (request: NextRequest) => {
 
 const fetchAccessToken = async (token: string) => {
   const baseURL = getMainBaseURL()
+  console.log('🚀 ~ fetchAccessToken ~ baseURL:', baseURL)
   const response = await fetch(`${baseURL}/chat/api/v2/chat-token`, {
     method: 'POST',
     headers: {

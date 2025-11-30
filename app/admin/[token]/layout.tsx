@@ -1,8 +1,9 @@
 // import AdminChatView from "@/components/admin-chat-view"
 import SearchChats from '@/components/common/search-input'
-import { getAccessTokenFromHeaders } from '@/lib/get-access-token-from-headers'
+import { getAccessToken } from '@/lib/get-access-token'
 import { SessionStoreProvider } from '@/stores/session-store-provider'
 import ChatList from './_components/chat-list'
+import { CacheAccessToken } from '@/components/common/cache-access-token'
 
 export const dynamic = 'force-dynamic'
 
@@ -15,12 +16,8 @@ export default async function AdminLayout({
     token: string
   }>
 }) {
-  const accessToken = await getAccessTokenFromHeaders()
-  console.log('🚀 ~ AdminLayout ~ accessToken:', accessToken)
-
-  if (!accessToken) {
-    throw new Error('Access token not found')
-  }
+  const { token } = await params
+  const { token: accessToken, cached } = await getAccessToken(token)
 
   return (
     <SessionStoreProvider accessToken={accessToken}>
@@ -49,6 +46,7 @@ export default async function AdminLayout({
           <div className="w-full">{children}</div>
         </div>
       </main>
+      <CacheAccessToken cached={cached} token={accessToken} />
     </SessionStoreProvider>
   )
 }

@@ -1,5 +1,5 @@
 // import AdminChatView from "@/components/admin-chat-view"
-import { getAccessTokenFromHeaders } from '@/lib/get-access-token-from-headers'
+import { getAccessTokenFromHeaders } from '@/lib/get-access-token'
 import { SessionStoreProvider } from '@/stores/session-store-provider'
 import ChatList from './_components/chat-list'
 
