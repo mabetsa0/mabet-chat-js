@@ -50,9 +50,10 @@ export async function POST(request: NextRequest) {
       })
 
       return NextResponse.json({ token: accessToken }, { status: 200 })
-    } catch (error: any) {
+    } catch (error: unknown) {
       // Handle unauthorized errors
-      const status = error?.response?.status
+      const status = (error as { response?: { status: number } })?.response
+        ?.status
 
       // Clear any invalid cookies
       cookieStore.delete(ACCESS_TOKEN_COOKIE)

@@ -15,7 +15,7 @@ export const CacheAccessToken = ({
     if (!cached) {
       axios.post('/api/cache-access-token', { accessToken: token })
     }
-  }, [cached])
+  }, [cached, token])
 
   return null
 }
