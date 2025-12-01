@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from 'react'
 
 import { Conversation } from '@/@types/chats-response'
+import { useUser } from '@/contexts/user-context'
 import { useSendEvent } from '@/hooks/use-send-event'
 import { useWsEvent } from '@/hooks/use-ws-event'
 import { WS_ON_EVENTS, WS_SEND_EVENTS } from '@/services/ws/events'
@@ -15,6 +16,7 @@ type AuthenticatedEventPayload = {
   first_conversations_page: Conversation[]
 }
 export const useWsChatsList = (accessToken: string) => {
+  const [_, setUser] = useUser()
   const [conversations, setConversations] = useState<Conversation[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -25,6 +27,11 @@ export const useWsChatsList = (accessToken: string) => {
     setIsLoading(false)
     setError(null)
     setConversations(data.first_conversations_page)
+    setUser({
+      id: data.user_id.toString(),
+      name: data.user_name,
+      type: data.user_type as 'admin' | 'user',
+    })
   }, [])
   // Register the event listener
   useWsEvent<AuthenticatedEventPayload>(

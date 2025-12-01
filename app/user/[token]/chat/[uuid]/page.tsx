@@ -47,9 +47,6 @@ export default async function Page({
                   </div>
                 </div>
               </div>
-              {/* <Button variant={'ghost'} size={'icon'}>
-                <MoreVertical />
-              </Button> */}
             </div>
           </div>
           <ChatBody />
