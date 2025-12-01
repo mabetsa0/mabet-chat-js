@@ -1,5 +1,5 @@
 import { emitEvent } from './event-handler'
-import { WSOnEvents } from './events'
+import { WSOnEvents, WSSendEvents } from './events'
 
 // Singleton WebSocket instance with auto‑reconnect
 let socket: WebSocket | null = null
@@ -68,11 +68,12 @@ function createWebSocket() {
 
   socket.onmessage = (msg) => {
     try {
-      const { type, contents } = JSON.parse(msg.data) as {
+      const { type, contents, id } = JSON.parse(msg.data) as {
         type: WSOnEvents
         contents: unknown
+        id: string
       }
-      emitEvent(type, contents) // ⬅ central routing
+      emitEvent(type, contents, id) // ⬅ central routing
     } catch (e) {
       console.error('Invalid WS message:', msg.data)
     }
@@ -108,4 +109,10 @@ export function closeSocket() {
   }
 
   socket = null
+}
+
+export function wsSendEvent<T>(event: WSSendEvents, payload: T, id: string) {
+  if (!socket || socket.readyState !== WebSocket.OPEN) return null
+  socket.send(JSON.stringify({ type: event, contents: payload, id }))
+  return id
 }

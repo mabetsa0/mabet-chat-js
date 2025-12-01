@@ -11,13 +11,13 @@ import { WS_SEND_EVENTS } from '@/services/ws/events'
 const ChatList = ({ accessToken }: { accessToken: string }) => {
   const { data, isLoading, error, refetch } = useWsChatsList(accessToken)
 
-  const { sendEvent } = useSendEvent()
-  useEffect(() => {
-    sendEvent(WS_SEND_EVENTS.SEND_MESSAGE, {
-      token: accessToken,
-      first_conversations_page_size: 10,
-    })
-  }, [refetch, accessToken])
+  // const { sendEvent } = useSendEvent()
+  // useEffect(() => {
+  //   sendEvent(WS_SEND_EVENTS.SEND_MESSAGE, {
+  //     token: accessToken,
+  //     first_conversations_page_size: 10,
+  //   })
+  // }, [refetch, accessToken])
 
   return (
     <>

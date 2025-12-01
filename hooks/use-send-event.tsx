@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useRef } from 'react'
-import { getOrInitWebSocket } from '@/services/ws'
+import { getOrInitWebSocket, wsSendEvent } from '@/services/ws'
 import { WSSendEvents } from '@/services/ws/events'
+import { v4 as uuidv4 } from 'uuid'
 
 type PendingEvent = {
+  id: string
   event: WSSendEvents
   payload: unknown
 }
@@ -18,12 +20,7 @@ export function useSendEvent() {
       const next = queueRef.current.shift()
       if (!next) continue
 
-      socket.send(
-        JSON.stringify({
-          type: next.event,
-          contents: next.payload,
-        })
-      )
+      wsSendEvent(next.event, next.payload, next.id)
     }
   }, [])
 
@@ -62,19 +59,16 @@ export function useSendEvent() {
   }, [flushQueue])
 
   const sendEvent = useCallback(<T,>(event: WSSendEvents, payload: T) => {
+    const id = uuidv4()
     const socket = getOrInitWebSocket()
 
     if (!socket || socket.readyState !== WebSocket.OPEN) {
-      queueRef.current.push({ event, payload })
+      queueRef.current.push({ id, event, payload })
       return
     }
 
-    socket.send(
-      JSON.stringify({
-        type: event,
-        contents: payload,
-      })
-    )
+    wsSendEvent(event, payload, id)
+    return id
   }, [])
 
   return { sendEvent }
