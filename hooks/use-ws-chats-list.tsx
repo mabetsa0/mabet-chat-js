@@ -49,7 +49,7 @@ export const useWsChatsList = (accessToken: string) => {
     lastAuthenticateEventIdRef.current = sendEvent(
       WS_SEND_EVENTS.AUTHENTICATE,
       {
-        token: accessToken + '23',
+        token: accessToken,
         first_conversations_page_size: 10,
       }
     )!
