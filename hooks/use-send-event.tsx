@@ -64,7 +64,7 @@ export function useSendEvent() {
 
     if (!socket || socket.readyState !== WebSocket.OPEN) {
       queueRef.current.push({ id, event, payload })
-      return
+      return id
     }
 
     wsSendEvent(event, payload, id)

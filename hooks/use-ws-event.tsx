@@ -3,7 +3,10 @@ import { onEvent } from '@/services/ws/event-handler'
 import { WSOnEvents } from '@/services/ws/events'
 import { useEffect, useRef } from 'react'
 
-export function useWsEvent<T>(event: WSOnEvents, callback: (data: T) => void) {
+export function useWsEvent<T>(
+  event: WSOnEvents,
+  callback: (data: T, id: string) => void
+) {
   // Use ref to store the latest callback without re-registering the listener
   const callbackRef = useRef(callback)
 
@@ -15,8 +18,8 @@ export function useWsEvent<T>(event: WSOnEvents, callback: (data: T) => void) {
     getOrInitWebSocket() // ensure socket is open
 
     // Create a stable wrapper that always calls the latest callback
-    const stableCallback = (data: T) => {
-      callbackRef.current(data)
+    const stableCallback = (data: T, id: string) => {
+      callbackRef.current(data, id)
     }
 
     const unsubscribe = onEvent(event, stableCallback)
