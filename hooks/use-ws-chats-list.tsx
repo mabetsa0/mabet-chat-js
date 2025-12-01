@@ -23,6 +23,7 @@ export const useWsChatsList = (accessToken: string) => {
 
   const handleAuthenticated = useCallback((data: AuthenticatedEventPayload) => {
     setIsLoading(false)
+    setError(null)
     setConversations(data.first_conversations_page)
   }, [])
   // Register the event listener
@@ -38,6 +39,7 @@ export const useWsChatsList = (accessToken: string) => {
 
       setIsLoading(false)
       setError(data.message)
+      setConversations([])
     },
     []
   )
