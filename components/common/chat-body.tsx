@@ -69,9 +69,7 @@ const ChatBody = () => {
     ) {
       lastMessageIdRef.current = currentLastMessageId
       // Use smooth scroll for new messages
-      setTimeout(() => {
-        scrollToBottom('smooth')
-      }, 100)
+      scrollToBottom('smooth')
     }
   }, [messages])
 

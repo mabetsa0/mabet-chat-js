@@ -1,8 +1,8 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
+import { useCallback, useRef, useState } from 'react'
 
 import { Message } from '@/@types/chat-response'
 import { useUser } from '@/contexts/user-context'
