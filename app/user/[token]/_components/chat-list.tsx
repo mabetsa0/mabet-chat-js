@@ -5,10 +5,11 @@ import { useWsChatsList } from '@/hooks/use-ws-chats-list'
 import { Loader2, MessageSquare, RefreshCcw } from 'lucide-react'
 import ChatItem from './chat-item'
 import { Button } from '@/components/ui/button'
+import { useUser } from '@/contexts/user-context'
 
 const ChatList = ({ accessToken }: { accessToken: string }) => {
   const { data, isLoading, error, refetch } = useWsChatsList(accessToken)
-
+  const [user, setUser] = useUser()
   return (
     <div className="h-screen">
       <div className="px-4 py-2">
