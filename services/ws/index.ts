@@ -1,5 +1,10 @@
 import { emitEvent } from './event-handler'
-import { WSOnEvents, WSSendEvents } from './events'
+import {
+  WS_SEND_EVENTS,
+  WSOnEvents,
+  WSSendEvents,
+  WSSendEventPayloadByEvent,
+} from './events'
 
 // Singleton WebSocket instance with auto‑reconnect
 let socket: WebSocket | null = null
@@ -111,7 +116,11 @@ export function closeSocket() {
   socket = null
 }
 
-export function wsSendEvent<T>(event: WSSendEvents, payload: T, id: string) {
+export function wsSendEvent<T extends WSSendEvents>(
+  event: T,
+  payload: WSSendEventPayloadByEvent[T],
+  id: string
+) {
   if (!socket || socket.readyState !== WebSocket.OPEN) return null
   socket.send(JSON.stringify({ type: event, contents: payload, id }))
   return id
