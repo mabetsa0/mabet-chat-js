@@ -10,14 +10,17 @@ const ChatList = ({ accessToken }: { accessToken: string }) => {
   const { data, isLoading, error, refetch } = useWsChatsList(accessToken)
 
   return (
-    <>
-      <ScrollArea className="bg-stale-50 h-screen">
+    <div className="h-screen">
+      <div className="px-4 py-2">
+        <p className="font-bold">محادثاتي</p>
+      </div>
+      <ScrollArea className="bg-stale-50 h-[calc(100vh-40px)]">
         {isLoading ? (
-          <div className="flex h-screen items-center justify-center">
+          <div className="flex h-[calc(100vh-40px)] items-center justify-center">
             <Loader2 className="text-primary mx-auto my-20 size-8 animate-spin" />
           </div>
         ) : error ? (
-          <div className="flex h-screen flex-col items-center justify-center gap-2 text-red-500">
+          <div className="flex h-[calc(100vh-40px)] flex-col items-center justify-center gap-2 text-red-500">
             {error}
             <Button onClick={refetch}>
               <RefreshCcw className="size-4" />
@@ -29,7 +32,7 @@ const ChatList = ({ accessToken }: { accessToken: string }) => {
             <ChatItem key={conversation.uuid} conversation={conversation} />
           ))
         ) : (
-          <div className="flex h-screen flex-col items-center justify-center gap-4 text-center">
+          <div className="flex h-[calc(100vh-40px)] flex-col items-center justify-center gap-4 text-center">
             <MessageSquare className="text-muted-foreground size-12" />
             <div className="space-y-2">
               <p className="text-muted-foreground text-lg font-medium">
@@ -42,7 +45,7 @@ const ChatList = ({ accessToken }: { accessToken: string }) => {
           </div>
         )}
       </ScrollArea>
-    </>
+    </div>
   )
 }
 

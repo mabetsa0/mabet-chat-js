@@ -12,7 +12,7 @@ export interface Conversation {
   uuid: string
   type: string
   id: number
-  title: string
+  title: string | null
   image: string
   initiator_type: string
   initiator_id: number

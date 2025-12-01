@@ -16,7 +16,7 @@ type AuthenticatedEventPayload = {
 }
 export const useWsChatsList = (accessToken: string) => {
   const [conversations, setConversations] = useState<Conversation[]>([])
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const { sendEvent } = useSendEvent()
   const lastAuthenticateEventIdRef = useRef<string | null>(null)

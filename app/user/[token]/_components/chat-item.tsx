@@ -9,6 +9,11 @@ import { cn } from '@/lib/utils'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+import 'dayjs/locale/ar'
+
+dayjs.extend(relativeTime)
+dayjs.locale('ar')
 
 const ChatItem = ({ conversation }: { conversation: Conversation }) => {
   const { token } = useParams()
@@ -40,8 +45,7 @@ const ChatItem = ({ conversation }: { conversation: Conversation }) => {
 
           <div>
             <div className="mb-2">
-              <p className="flex gap-1 text-sm font-semibold">
-                <span>{conversation.initiator_name?.trim() || 'unknown'}</span>&
+              <p className="text-sm font-semibold">
                 <span>{conversation.title?.trim() || 'unknown'}</span>
               </p>
               <span className="text-xs font-medium text-gray-600">
@@ -59,11 +63,17 @@ const ChatItem = ({ conversation }: { conversation: Conversation }) => {
           </div>
           <div className="mr-auto">
             <span className="block text-[10px] leading-loose text-[#494949]">
-              {dayjs(
-                conversation.last_message?.created_at || conversation.created_at
-              ).format('DD MMM YYYY')}
+              {(() => {
+                const date = dayjs(
+                  conversation.last_message?.created_at ||
+                    conversation.created_at
+                )
+                return date.isSame(dayjs(), 'day')
+                  ? date.fromNow()
+                  : date.format('DD MMM YYYY')
+              })()}
             </span>
-            {conversation.unread_messages_count > 0 ? (
+            {conversation.unread_messages_count ? (
               <span className="mt-2 block w-fit rounded bg-green-100 p-1 text-[10px] font-bold text-green-500">
                 {conversation.unread_messages_count}{' '}
                 {conversation.unread_messages_count === 1

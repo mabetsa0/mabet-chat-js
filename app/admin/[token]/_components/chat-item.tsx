@@ -9,6 +9,11 @@ import { cn } from '@/lib/utils'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+import 'dayjs/locale/ar'
+
+dayjs.extend(relativeTime)
+dayjs.locale('ar')
 
 const ChatItem = ({ conversation }: { conversation: Conversation }) => {
   const { token } = useParams()
@@ -59,9 +64,15 @@ const ChatItem = ({ conversation }: { conversation: Conversation }) => {
           </div>
           <div className="mr-auto">
             <span className="block text-[10px] leading-loose text-[#494949]">
-              {dayjs(
-                conversation.last_message?.created_at || conversation.created_at
-              ).format('DD MMM YYYY')}
+              {(() => {
+                const date = dayjs(
+                  conversation.last_message?.created_at ||
+                    conversation.created_at
+                )
+                return date.isSame(dayjs(), 'day')
+                  ? date.fromNow()
+                  : date.format('DD MMM YYYY')
+              })()}
             </span>
             {conversation.unread_messages_count > 0 ? (
               <span className="mt-2 block w-fit rounded bg-green-100 p-1 text-[10px] font-bold text-green-500">
