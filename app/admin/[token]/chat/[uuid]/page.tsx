@@ -4,10 +4,10 @@ import { MoreVertical, User } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 // import AdminChatBody from "@/components/admin-chat-body"
 import BackButton from '@/components/common/back-button'
+import ChatBody from '@/components/common/chat-body'
 import { Button } from '@/components/ui/button'
-import { getAccessToken } from '@/lib/get-access-token'
-import AdminChatBody from './_components/chat-body'
 import { ChatProvider } from '@/contexts/chat-context'
+import { getAccessToken } from '@/lib/get-access-token'
 export const dynamic = 'force-dynamic'
 export default async function Page({
   params,
@@ -53,7 +53,7 @@ export default async function Page({
             </Button>
           </div>
         </div>
-        <AdminChatBody />
+        <ChatBody />
       </main>
     </ChatProvider>
   )

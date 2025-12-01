@@ -6,15 +6,15 @@ import React, { useEffect, useRef } from 'react'
 import ChatInput from '@/components/common/chat-input'
 import DateIndicator from '@/components/common/date-indicator'
 import Message from '@/components/common/message'
+import UnitCard from '@/components/common/unit-card'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { useChatData } from '@/contexts/chat-context'
 import dayjs from 'dayjs'
 import { Loader2 } from 'lucide-react'
 import { useParams } from 'next/navigation'
-import { useChatData } from '@/contexts/chat-context'
-import UnitCard from '@/components/common/unit-card'
 // import UnitCard from "@/components/common/unit-card"
 
-const AdminChatBody = () => {
+const ChatBody = () => {
   const chatData = useChatData()
 
   const { uuid } = useParams<{ uuid: string }>()!
@@ -56,7 +56,7 @@ const AdminChatBody = () => {
         <UnitCard
           unit={{
             id: chatData.topic_id + '',
-            name: chatData.topic_name,
+            name: chatData.topic_name || 'unknown',
             image: chatData.image,
           }}
         />
@@ -79,4 +79,4 @@ const AdminChatBody = () => {
   )
 }
 
-export default AdminChatBody
+export default ChatBody

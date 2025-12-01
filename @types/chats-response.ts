@@ -22,7 +22,11 @@ export interface Conversation {
   topic_name: null | string
   created_at: string
   unread_messages_count: number
-  online_participants: any[]
+  online_participants: {
+    id: number
+    type: string
+    name: string
+  }[]
   read_positions: ReadPosition[]
   last_message: LastMessage
 }
