@@ -1,7 +1,7 @@
 import axios from 'axios'
 export const chatBaseURL =
   process.env.NEXT_PUBLIC_TEST == 'true'
-    ? process.env.NEXT_PUBLIC_EXPERIMENTAL
+    ? process.env.NEXT_PUBLIC_EXPERIMENTAL === 'true'
       ? 'https://chat-experimental.mabet-app.com/api/v1'
       : 'https://chat-test.mabet-app.com/api/v1'
     : 'https://chat.mabet-app.com/api/v1'
