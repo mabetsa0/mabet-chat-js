@@ -43,7 +43,10 @@ function scheduleReconnect() {
 }
 
 function createWebSocket() {
-  const url = process.env.NEXT_PUBLIC_WS_URL
+  const url =
+    process.env.NODE_ENV === 'development'
+      ? 'wss://chat-experimental.mabet-app.com/api/v1/ws?lang=ar'
+      : 'wss://chat.mabet-app.com/api/v1/ws?lang=ar'
   if (!url) {
     console.error('NEXT_PUBLIC_WS_URL is not defined')
     return null
