@@ -73,7 +73,7 @@ const ChatBody = () => {
     }
   }, [messages])
 
-  if (isLoading || !user?.id)
+  if (isLoading)
     return (
       <div className="flex h-[calc(100vh-100px)] items-center justify-center">
         <Loader2 className="text-primary size-8 animate-spin" />
