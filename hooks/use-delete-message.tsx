@@ -19,7 +19,7 @@ export const useDeleteMessage = () => {
       toast.success('تم حذف الرسالة ')
     },
     onError() {
-      toast.success('لم يتم حذف الرسالة')
+      toast.error('لم يتم حذف الرسالة')
     },
   })
 

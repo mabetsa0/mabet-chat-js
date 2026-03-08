@@ -36,7 +36,7 @@ const Message = ({
   const chatData = useChatData()
   const [user] = useUser()
   const pathName = usePathname()
-  const { mutate: deleteMessage, isPending } = useDeleteMessage()
+  const { mutate: deleteMessage } = useDeleteMessage()
 
   // Determine message type
   const isAdminView = pathName?.includes('/admin')
@@ -169,9 +169,7 @@ const Message = ({
 
             {/* Message Content */}
             <div className="mt-2 flex items-center gap-1">
-              {isLoading || isPending ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : null}
+              {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
               {errorMessage ? (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -209,15 +207,13 @@ const Message = ({
             <span>نسخ</span>
             <Copy className="mr-2 h-4 w-4" />
           </ContextMenuItem>
-          {isUserMessage && (
-            <ContextMenuItem
-              onClick={handleDeleteMessage}
-              className="flex-end justify-end gap-1 text-red-500 hover:!text-red-600"
-            >
-              <span>حذف الرسالة</span>
-              <ShieldAlert className="mr-2 h-4 w-4 text-red-500" />
-            </ContextMenuItem>
-          )}
+          <ContextMenuItem
+            onClick={handleDeleteMessage}
+            className="flex-end justify-end gap-1 text-red-500 hover:!text-red-600"
+          >
+            <span>حذف الرسالة</span>
+            <ShieldAlert className="mr-2 h-4 w-4 text-red-500" />
+          </ContextMenuItem>
         </ContextMenuContent>
       </ContextMenu>
     </div>
